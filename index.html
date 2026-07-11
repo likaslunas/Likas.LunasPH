@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LikasLunas — Philippine Herbal Medicine Guide</title>
+<style>
+  :root{
+    --ink:#1A2B20;
+    --forest:#20402C;
+    --forest-deep:#152A1C;
+    --paper:#F1EAD5;
+    --paper-card:#FAF5E8;
+    --gold:#B8860B;
+    --gold-soft:#E8D9A8;
+    --clay:#A8562F;
+    --sage:#6E8B6A;
+    --moderate:#C99A2E;
+    --emerging:#B87333;
+    --weak:#A8453A;
+    --strong:#3D6B41;
+    --line: rgba(26,43,32,0.14);
+    --shadow: 0 1px 2px rgba(21,42,28,0.08), 0 4px 14px rgba(21,42,28,0.06);
+    --radius: 14px;
+    --serif: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--forest-deep);
+    font-family: var(--sans);
+    color: var(--ink);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+  }
+  a{color:inherit;}
+  button{font-family:inherit;}
+
+  /* Phone frame */
+  .app{
+    width:100%;
+    max-width:480px;
+    min-height:100vh;
+    background: var(--paper);
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    background-image:
+      radial-gradient(ellipse at top left, rgba(184,134,11,0.05), transparent 55%),
+      repeating-linear-gradient(180deg, transparent, transparent 27px, rgba(26,43,32,0.025) 28px);
+  }
+
+  /* ===== HEADER ===== */
+  header.top{
+    background: linear-gradient(160deg, var(--forest) 0%, var(--forest-deep) 100%);
+    color: var(--gold-soft);
+    padding: 22px 20px 26px;
+    position:relative;
+    overflow:hidden;
+  }
+  header.top::after{
+    content:"";
+    position:absolute; inset:0;
+    background-image: radial-gradient(circle at 85% 20%, rgba(232,217,168,0.08), transparent 40%);
+    pointer-events:none;
+  }
+  .top-row{display:flex; align-items:flex-start; justify-content:space-between; gap:12px;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand-mark{
+    width:38px; height:38px; border-radius:10px;
+    background: rgba(232,217,168,0.12);
+    border:1px solid rgba(232,217,168,0.3);
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px; flex-shrink:0;
+  }
+  .brand h1{
+    font-family: var(--serif);
+    font-size:21px;
+    margin:0;
+    color:#FBF6E9;
+    letter-spacing:0.2px;
+  }
+  .brand .eyebrow{
+    font-size:10.5px;
+    letter-spacing:1.6px;
+    text-transform:uppercase;
+    color: rgba(232,217,168,0.65);
+    margin-top:2px;
+  }
+  .lang-toggle{
+    display:flex;
+    background: rgba(0,0,0,0.18);
+    border-radius:20px;
+    padding:3px;
+    border:1px solid rgba(232,217,168,0.25);
+    flex-shrink:0;
+  }
+  .lang-toggle button{
+    border:none; background:none; cursor:pointer;
+    color: rgba(232,217,168,0.55);
+    font-size:12px; font-weight:600;
+    padding:5px 11px; border-radius:16px;
+    transition: all .15s ease;
+  }
+  .lang-toggle button.active{
+    background: var(--gold-soft);
+    color: var(--forest-deep);
+  }
+
+  .search-wrap{ margin-top:20px; position:relative; }
+  .search-wrap svg{position:absolute; left:14px; top:50%; transform:translateY(-50%); opacity:0.55;}
+  .search-wrap input{
+    width:100%;
+    padding:13px 14px 13px 40px;
+    border-radius:12px;
+    border:1px solid rgba(232,217,168,0.25);
+    background: rgba(251,246,233,0.96);
+    color: var(--ink);
+    font-size:14.5px;
+    font-family: var(--sans);
+    outline:none;
+  }
+  .search-wrap input::placeholder{color:#7A8878;}
+
+  /* ===== FILTER CHIPS ===== */
+  .filters{
+    display:flex; gap:8px; overflow-x:auto;
+    padding: 14px 16px 4px;
+    scrollbar-width:none;
+  }
+  .filters::-webkit-scrollbar{display:none;}
+  .chip{
+    flex-shrink:0;
+    display:flex; align-items:center; gap:5px;
+    padding:7px 13px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background: var(--paper-card);
+    font-size:12.5px; font-weight:600;
+    color: var(--ink);
+    cursor:pointer;
+    white-space:nowrap;
+    transition: all .12s ease;
+  }
+  .chip.active{
+    background: var(--forest);
+    border-color: var(--forest);
+    color: var(--gold-soft);
+  }
+
+  .section-label{
+    font-size:11px; letter-spacing:1.2px; text-transform:uppercase;
+    color:#5B6B57; font-weight:700;
+    padding: 16px 20px 8px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .section-label .count{color:#8A9686; font-weight:600; text-transform:none; letter-spacing:0;}
+
+  /* ===== HERB LIST ===== */
+  .herb-list{ padding: 0 16px 90px; display:flex; flex-direction:column; gap:10px; }
+  .herb-card{
+    background: var(--paper-card);
+    border:1px solid var(--line);
+    border-radius: var(--radius);
+    padding:13px 14px;
+    display:flex; align-items:center; gap:13px;
+    cursor:pointer;
+    box-shadow: var(--shadow);
+    transition: transform .12s ease;
+  }
+  .herb-card:active{transform: scale(0.98);}
+  .herb-thumb{
+    width:52px; height:52px; border-radius:10px;
+    background: linear-gradient(150deg, var(--sage), var(--forest));
+    display:flex; align-items:center; justify-content:center;
+    font-size:22px; flex-shrink:0;
+    color: var(--gold-soft);
+  }
+  .herb-info{flex:1; min-width:0;}
+  .herb-info h3{
+    font-family: var(--serif); font-size:16.5px; margin:0 0 1px;
+    color: var(--forest-deep);
+  }
+  .herb-info .alt{font-size:12.5px; color:#6A7866; margin-bottom:6px;}
+  .herb-tags{display:flex; align-items:center; gap:6px; flex-wrap:wrap;}
+  .tag{
+    font-size:10.5px; font-weight:700; padding:2.5px 8px; border-radius:8px;
+    display:inline-flex; align-items:center; gap:3px;
+  }
+  .tag.cat{background: rgba(110,139,106,0.16); color: var(--forest);}
+  .stamp{
+    width:9px; height:9px; border-radius:50%;
+    flex-shrink:0; border:1.5px solid rgba(255,255,255,0.7);
+  }
+  .stamp.strong{background: var(--strong);}
+  .stamp.moderate{background: var(--moderate);}
+  .stamp.emerging{background: var(--emerging);}
+  .stamp.weak{background: var(--weak);}
+  .chevron{opacity:0.35; flex-shrink:0;}
+
+  .empty-state{
+    padding: 60px 30px; text-align:center; color:#6A7866;
+  }
+  .empty-state .glyph{font-size:34px; margin-bottom:10px;}
+  .empty-state p{font-size:13.5px; line-height:1.5; margin:0;}
+
+  /* ===== DETAIL VIEW ===== */
+  .detail{
+    position:fixed; inset:0; z-index:50;
+    max-width:480px; margin:0 auto;
+    background: var(--paper);
+    overflow-y:auto;
+    display:none;
+  }
+  .detail.open{display:block;}
+  .detail-head{
+    background: linear-gradient(160deg, var(--forest) 0%, var(--forest-deep) 100%);
+    padding: 18px 20px 40px;
+    color:#FBF6E9;
+    position:relative;
+  }
+  .back-btn{
+    background: rgba(251,246,233,0.12);
+    border:1px solid rgba(251,246,233,0.25);
+    color:#FBF6E9;
+    width:34px; height:34px; border-radius:9px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; margin-bottom:16px;
+  }
+  .detail-head h2{font-family:var(--serif); font-size:26px; margin:0 0 3px;}
+  .detail-head .sci{font-style:italic; font-size:14px; color: rgba(232,217,168,0.8); margin-bottom:2px;}
+  .detail-head .alt{font-size:13px; color: rgba(251,246,233,0.65);}
+
+  .specimen-card{
+    background: var(--paper-card);
+    margin: -26px 16px 0;
+    border-radius: 16px;
+    border:1px solid var(--line);
+    box-shadow: var(--shadow);
+    padding: 18px 18px 4px;
+    position:relative;
+  }
+  .evidence-row{
+    display:flex; align-items:center; gap:9px;
+    padding-bottom:16px; margin-bottom:16px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .evidence-badge{
+    width:38px; height:38px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px; flex-shrink:0;
+    border:2px solid;
+  }
+  .evidence-badge.strong{background:rgba(61,107,65,0.12); border-color:var(--strong); color:var(--strong);}
+  .evidence-badge.moderate{background:rgba(201,154,46,0.14); border-color:var(--moderate); color:var(--moderate);}
+  .evidence-badge.emerging{background:rgba(184,115,51,0.14); border-color:var(--emerging); color:var(--emerging);}
+  .evidence-badge.weak{background:rgba(168,69,58,0.12); border-color:var(--weak); color:var(--weak);}
+  .evidence-text .label{font-size:13px; font-weight:700; color:var(--forest-deep);}
+  .evidence-text .desc{font-size:11.5px; color:#6A7866; margin-top:1px;}
+  .doh-pill{
+    margin-left:auto; font-size:10px; font-weight:800; letter-spacing:0.4px;
+    background: var(--gold-soft); color:var(--forest-deep);
+    padding:4px 8px; border-radius:7px; flex-shrink:0; white-space:nowrap;
+  }
+
+  .field{margin-bottom:18px;}
+  .field h4{
+    font-size:11px; letter-spacing:1.1px; text-transform:uppercase;
+    color: var(--sage); font-weight:800; margin:0 0 6px;
+    display:flex; align-items:center; gap:6px;
+  }
+  .field p{font-size:14px; line-height:1.55; margin:0; color:var(--ink);}
+  .field .prep-box{
+    background: rgba(110,139,106,0.08);
+    border-left:3px solid var(--sage);
+    padding:11px 13px; border-radius:0 8px 8px 0;
+    font-size:13.5px; line-height:1.6;
+  }
+  .field .warn-box{
+    background: rgba(168,69,58,0.07);
+    border-left:3px solid var(--weak);
+    padding:11px 13px; border-radius:0 8px 8px 0;
+    font-size:13.5px; line-height:1.6;
+  }
+  .compound-list{display:flex; flex-wrap:wrap; gap:6px;}
+  .compound-list span{
+    font-size:11.5px; background: rgba(184,134,11,0.1); color:#8A6512;
+    padding:3px 9px; border-radius:7px; border:1px solid rgba(184,134,11,0.2);
+  }
+  .source-list{font-size:12px; color:#6A7866; line-height:1.7;}
+  .source-list div::before{content:"— "; color: var(--sage);}
+
+  .disclaimer{
+    margin: 6px 16px 24px; padding:13px 15px;
+    background: rgba(26,43,32,0.05); border-radius:10px;
+    font-size:11.5px; color:#5B6B57; line-height:1.55;
+    border:1px dashed var(--line);
+  }
+
+  /* ===== BOTTOM NAV ===== */
+  nav.bottom{
+    position:fixed; bottom:0; left:0; right:0;
+    max-width:480px; margin:0 auto;
+    background: var(--paper-card);
+    border-top:1px solid var(--line);
+    display:flex; z-index:40;
+    padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
+  }
+  nav.bottom button{
+    flex:1; background:none; border:none; cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; gap:3px;
+    color:#8A9686; font-size:10.5px; font-weight:600;
+    padding:5px 0;
+  }
+  nav.bottom button.active{color: var(--forest);}
+  nav.bottom button svg{opacity:0.9;}
+
+  /* ===== ADD HERB MODAL ===== */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(21,42,28,0.55);
+    z-index:60; display:none; align-items:flex-end; justify-content:center;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{
+    width:100%; max-width:480px;
+    background: var(--paper);
+    border-radius:20px 20px 0 0;
+    padding: 20px 20px calc(20px + env(safe-area-inset-bottom));
+    max-height:88vh; overflow-y:auto;
+  }
+  .modal-handle{width:38px; height:4px; background:var(--line); border-radius:3px; margin:0 auto 16px;}
+  .modal h3{font-family:var(--serif); font-size:20px; margin:0 0 4px; color:var(--forest-deep);}
+  .modal .sub{font-size:12.5px; color:#6A7866; margin-bottom:18px; line-height:1.5;}
+  .modal label{
+    display:block; font-size:11px; font-weight:800; text-transform:uppercase;
+    letter-spacing:0.6px; color:var(--sage); margin:14px 0 6px;
+  }
+  .modal input, .modal textarea, .modal select{
+    width:100%; padding:10px 12px; border-radius:9px;
+    border:1px solid var(--line); background:var(--paper-card);
+    font-size:13.5px; font-family:inherit; color:var(--ink); outline:none;
+  }
+  .modal textarea{resize:vertical; min-height:64px;}
+  .modal-actions{display:flex; gap:10px; margin-top:20px;}
+  .btn{
+    flex:1; padding:12px; border-radius:11px; border:none;
+    font-size:13.5px; font-weight:700; cursor:pointer;
+  }
+  .btn.primary{background:var(--forest); color:var(--gold-soft);}
+  .btn.ghost{background:transparent; color:var(--sage); border:1px solid var(--line);}
+  .community-note{
+    margin-top:16px; padding:11px 13px; background:rgba(184,134,11,0.08);
+    border-radius:9px; font-size:11.5px; color:#8A6512; line-height:1.5;
+    border:1px dashed rgba(184,134,11,0.3);
+  }
+  .toast{
+    position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--forest-deep); color:var(--gold-soft); padding:11px 20px;
+    border-radius:30px; font-size:13px; font-weight:600; z-index:80;
+    opacity:0; transition: all .25s ease; pointer-events:none;
+    box-shadow:0 8px 24px rgba(0,0,0,0.25); white-space:nowrap;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  .community-flag{
+    font-size:9.5px; font-weight:800; letter-spacing:0.4px;
+    background: rgba(184,115,51,0.16); color:var(--emerging);
+    padding:3px 7px; border-radius:6px;
+  }
+
+  /* ===== AUTH ===== */
+  .auth-chip{
+    border:1px solid rgba(232,217,168,0.3); background:rgba(0,0,0,0.18); color:var(--gold-soft);
+    font-size:12px; font-weight:700; padding:7px 13px; border-radius:20px; cursor:pointer;
+    white-space:nowrap; flex-shrink:0; max-width:130px; overflow:hidden; text-overflow:ellipsis;
+  }
+  .auth-switch{ text-align:center; font-size:12.5px; color:#6A7866; margin-top:14px; }
+  .auth-switch a{ color:var(--forest); font-weight:700; text-decoration:none; }
+  .auth-error{
+    margin-top:14px; padding:10px 13px; border-radius:9px; font-size:12px; line-height:1.5;
+    background: rgba(168,69,58,0.08); border:1px solid rgba(168,69,58,0.25); color:var(--weak);
+  }
+
+  /* ===== UPVOTE + COMMENTS ===== */
+  .engage-row{
+    display:flex; align-items:center; gap:10px;
+    padding: 2px 0 16px; margin-bottom:16px; border-bottom:1px dashed var(--line);
+  }
+  .upvote-btn{
+    display:flex; align-items:center; gap:7px;
+    background: var(--paper); border:1.5px solid var(--line); color:var(--forest);
+    padding:8px 16px; border-radius:20px; font-weight:700; font-size:13px; cursor:pointer;
+    transition: all .15s ease;
+  }
+  .upvote-btn.active{ background: var(--gold-soft); border-color: var(--gold); color: var(--forest-deep); }
+  .comment-list{ display:flex; flex-direction:column; gap:9px; margin:10px 0 14px; max-height:280px; overflow-y:auto; }
+  .comment-card{ background: rgba(110,139,106,0.07); border-radius:10px; padding:10px 12px; }
+  .comment-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:3px; gap:8px; }
+  .comment-head strong{ font-size:12.5px; color:var(--forest-deep); }
+  .comment-head span{ font-size:10.5px; color:#8A9686; flex-shrink:0; }
+  .comment-card p{ margin:0; font-size:13px; line-height:1.5; color:var(--ink); word-break:break-word; }
+  .comment-input-row{ display:flex; gap:8px; }
+  .comment-input-row input{
+    flex:1; padding:10px 13px; border-radius:20px; border:1px solid var(--line);
+    background:var(--paper-card); font-size:13px; font-family:inherit; outline:none;
+  }
+  .comment-input-row button{
+    width:38px; height:38px; border-radius:50%; border:none; background:var(--forest); color:var(--gold-soft);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;
+  }
+
+  /* ===================================================
+     DESKTOP / LARGE SCREEN LAYOUT
+     Below 900px, everything above still applies unchanged.
+  =================================================== */
+  @media (min-width: 900px){
+    body{ padding: 28px 16px; align-items:flex-start; }
+    .app{
+      max-width: 1100px;
+      border-radius: 22px;
+      overflow: visible;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+      min-height: auto;
+    }
+    header.top{ border-radius: 22px 22px 0 0; padding: 26px 32px 30px; }
+    .search-wrap{ max-width: 480px; }
+    .filters{ padding: 16px 32px 6px; }
+    .section-label{ padding: 18px 32px 10px; }
+
+    .herb-list{
+      padding: 0 32px 110px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 12px;
+    }
+    .herb-card{ align-items:flex-start; }
+
+    nav.bottom{
+      max-width: 1100px;
+      border-radius: 16px 16px 0 0;
+      padding: 10px 32px calc(10px + env(safe-area-inset-bottom));
+      box-shadow: 0 -8px 24px rgba(21,42,28,0.1);
+    }
+    nav.bottom button{
+      flex-direction: row;
+      gap: 7px;
+      flex: 0 0 auto;
+      padding: 8px 18px;
+      border-radius: 10px;
+    }
+    nav.bottom button.active{ background: rgba(32,64,44,0.08); }
+    nav.bottom{ justify-content:center; gap:8px; }
+
+    .detail{ max-width: 1100px; border-radius: 22px; box-shadow: 0 30px 80px rgba(0,0,0,0.45); }
+    .detail-head{ border-radius: 22px 22px 0 0; padding: 26px 40px 46px; }
+    .specimen-card{ margin: -30px 40px 0; max-width: 640px; }
+    .disclaimer{ margin: 6px 40px 30px; max-width: 640px; }
+
+    .modal-overlay{ align-items:center; }
+    .modal{
+      max-width: 480px;
+      border-radius: 20px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    }
+    .modal-handle{ display:none; }
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div class="app" id="app">
+
+  <header class="top">
+    <div class="top-row">
+      <div class="brand">
+        <div class="brand-mark">🌿</div>
+        <div>
+          <h1>LikasLunas</h1>
+          <div class="eyebrow" data-i18n="eyebrow">PH Herb Directory</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div class="lang-toggle">
+          <button id="btn-en" class="active">EN</button>
+          <button id="btn-tl">TL</button>
+        </div>
+        <button class="auth-chip" id="auth-btn" data-i18n="logIn">Log In</button>
+      </div>
+    </div>
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A2B20" stroke-width="2.3"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="search" type="text" data-i18n-placeholder="searchPlaceholder" placeholder="Search herbs or ailments...">
+    </div>
+  </header>
+
+  <div class="filters" id="filters"></div>
+
+  <div class="section-label">
+    <span id="list-title" data-i18n="allHerbs">All Herbs</span>
+    <span class="count" id="list-count"></span>
+  </div>
+
+  <div class="herb-list" id="herb-list"></div>
+
+  <nav class="bottom">
+    <button class="active" id="nav-home">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
+      <span data-i18n="navHome">Home</span>
+    </button>
+    <button id="nav-add">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      <span data-i18n="navAdd">Add Herb</span>
+    </button>
+    <button id="nav-mine">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span data-i18n="navMine">Mine</span>
+    </button>
+  </nav>
+
+  <!-- DETAIL VIEW -->
+  <div class="detail" id="detail">
+    <div class="detail-head">
+      <div class="back-btn" id="back-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg>
+      </div>
+      <h2 id="d-name"></h2>
+      <div class="sci" id="d-sci"></div>
+      <div class="alt" id="d-alt"></div>
+    </div>
+    <div class="specimen-card">
+      <div class="evidence-row">
+        <div class="evidence-badge" id="d-ev-badge"></div>
+        <div class="evidence-text">
+          <div class="label" id="d-ev-label"></div>
+          <div class="desc" id="d-ev-desc"></div>
+        </div>
+        <div class="doh-pill" id="d-doh" style="display:none;" data-i18n="dohApproved">DOH-APPROVED</div>
+      </div>
+
+      <div class="engage-row">
+        <button class="upvote-btn" id="d-upvote-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l8 9h-5v9H9v-9H4z"/></svg>
+          <span id="d-upvote-count">0</span>
+          <span data-i18n="helpful">Helpful</span>
+        </button>
+      </div>
+
+      <div class="field">
+        <h4 data-i18n="fUse">🌾 Traditional Use</h4>
+        <p id="d-use"></p>
+      </div>
+      <div class="field">
+        <h4 data-i18n="fPrep">🍵 How to Prepare & Use</h4>
+        <div class="prep-box" id="d-prep"></div>
+      </div>
+      <div class="field">
+        <h4 data-i18n="fCompounds">🧪 Active Compounds</h4>
+        <div class="compound-list" id="d-compounds"></div>
+      </div>
+      <div class="field">
+        <h4 data-i18n="fEvidence">📖 What the Research Shows</h4>
+        <p id="d-evsum"></p>
+      </div>
+      <div class="field">
+        <h4 data-i18n="fWarn">⚠️ Warnings & Side Effects</h4>
+        <div class="warn-box" id="d-warn"></div>
+      </div>
+      <div class="field">
+        <h4 data-i18n="fSources">📚 Sources</h4>
+        <div class="source-list" id="d-sources"></div>
+      </div>
+      <div class="field">
+        <h4 data-i18n="fComments">💬 Comments</h4>
+        <div class="comment-list" id="d-comments"></div>
+        <div class="comment-input-row">
+          <input id="comment-input" type="text" data-i18n-placeholder="commentPlaceholder" placeholder="Share your family's experience...">
+          <button id="comment-submit">→</button>
+        </div>
+      </div>
+    </div>
+    <div class="disclaimer" id="d-disclaimer" data-i18n="disclaimer">
+      This app is for educational/research purposes and is not a substitute for professional medical advice. Consult a doctor before using any herbal remedy, especially if pregnant, nursing, or taking other medication.
+    </div>
+  </div>
+
+  <!-- ADD HERB MODAL -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <h3 data-i18n="addHerbTitle">Share a Home Remedy</h3>
+      <div class="sub" data-i18n="addHerbSub">Know a Filipino herb or remedy that's not on the list? Add it here — it'll appear in the Community section, clearly marked, until it's reviewed against research.</div>
+
+      <label data-i18n="lblName">Local / Tagalog Name</label>
+      <input id="f-name" type="text" placeholder="e.g. Oregano">
+
+      <label data-i18n="lblSci">Scientific Name (if known)</label>
+      <input id="f-sci" type="text" placeholder="e.g. Coleus amboinicus">
+
+      <label data-i18n="lblUse">What is it used for?</label>
+      <textarea id="f-use" placeholder="e.g. Boiled for cough and colds..."></textarea>
+
+      <label data-i18n="lblPrep">How is it prepared, in your family?</label>
+      <textarea id="f-prep" placeholder="e.g. Boil 5-6 leaves in 2 cups water..."></textarea>
+
+      <label data-i18n="lblRegion">Where in the Philippines is this used?</label>
+      <input id="f-region" type="text" placeholder="e.g. Nueva Ecija">
+
+      <div class="community-note" id="community-note" data-i18n="communityNote">
+        📌 Submissions are saved to the community database and reviewed before appearing in the main directory for everyone.
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn ghost" id="modal-cancel" data-i18n="cancel">Cancel</button>
+        <button class="btn primary" id="modal-submit" data-i18n="submit">Submit Herb</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- LOGIN / SIGNUP MODAL -->
+  <div class="modal-overlay" id="auth-modal-overlay">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <h3 id="auth-modal-title" data-i18n="loginTitle">Log In</h3>
+      <div class="sub" id="auth-modal-sub" data-i18n="loginSub">Log in to submit herbs, comment, and upvote what actually works.</div>
+
+      <div id="auth-name-field" style="display:none;">
+        <label data-i18n="lblDisplayName">Display Name</label>
+        <input id="f-auth-name" type="text" placeholder="e.g. Cris">
+      </div>
+
+      <label data-i18n="lblEmail">Email</label>
+      <input id="f-auth-email" type="email" placeholder="you@email.com">
+
+      <label data-i18n="lblPassword">Password</label>
+      <input id="f-auth-password" type="password" placeholder="••••••••">
+
+      <div class="auth-error" id="auth-error" style="display:none;"></div>
+
+      <div class="modal-actions">
+        <button class="btn ghost" id="auth-modal-cancel" data-i18n="cancel">Cancel</button>
+        <button class="btn primary" id="auth-submit" data-i18n="loginSubmit">Log In</button>
+      </div>
+
+      <div class="auth-switch" id="auth-switch-text"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================= DATA ================= */
+const HERBS = [
+{
+  id:"lagundi", tl:"Lagundi", en:"Five-leaved chaste tree", sci:"Vitex negundo",
+  category:"respiratory", icon:"🫁", doh:true, evidence:"strong",
+  use_en:"Relieves coughs, asthma, bronchitis, sore throat, and colds.",
+  use_tl:"Nakakatulong sa ubo, hika, bronchitis, pananakit ng lalamunan, at sipon.",
+  compounds:["Casticin","Isoorientin","Luteolin","Sabinene","Linalool"],
+  evsum:"DOH-approved herbal medicine. Animal studies show Vitex negundo leaf extract has bronchodilator activity and reduces inflammation in allergic-asthma models by modulating several cell-signaling pathways.",
+  prep_en:"Decoction: boil 10–15g fresh/dried leaves in 300ml water until reduced by half. Drink 50–75ml twice daily. Can gargle for sore throat, or steam-inhale for congestion.",
+  prep_tl:"Pakuluan ang 10–15g sariwa o tuyong dahon sa 300ml tubig hanggang kumulang ng kalahati. Inumin ang 50–75ml, 2x araw-araw. Puwede ring i-gargle o singhutin ang singaw para sa baradong ilong.",
+  warn_en:"High oral doses may cause nausea, vomiting, or diarrhea (take with food). Sensitive individuals may get mild skin itching or swollen lips.",
+  warn_tl:"Ang sobrang dosis ay maaaring magdulot ng pagduduwal o pagtatae (inumin kasabay ng pagkain). Ang mga sensitibo ay maaaring makaranas ng pangangati ng balat.",
+  sources:["PubMed 25622948","ScienceDirect S0378874121001203","Semantic Scholar pharmacological review"]
+},
+{
+  id:"sambong", tl:"Sambong", en:"Ngai camphor, Blumea camphor", sci:"Blumea balsamifera",
+  category:"urinary", icon:"💧", doh:true, evidence:"strong",
+  use_en:"Treats kidney stones and edema (fluid retention); used as a diuretic.",
+  use_tl:"Panlunas sa bato sa bato (kidney stones) at pamamaga dulot ng tubig sa katawan; diuretic.",
+  compounds:["Monoterpenes","Sesquiterpenes","Flavonoids","L-borneol"],
+  evsum:"DOH-approved herbal medicine. Studies confirm diuretic and anti-urolithiasis (anti-kidney stone) activity, plus antioxidant, antimicrobial, and anti-inflammatory properties in lab studies.",
+  prep_en:"Wash 4–6 tbsp fresh chopped leaves (or 2–3 tbsp dried), boil in 2 glasses (500ml) water, simmer uncovered 15 min, strain, divide into 3 portions. Drink 1 portion 3x daily.",
+  prep_tl:"Hugasan ang 4–6 kutsarang sariwang dahon (o 2–3 kutsarang tuyo), pakuluan sa 2 basong tubig (500ml) ng 15 minuto nang hindi tinatakpan. Salain, hatiin sa 3 bahagi. Inumin ang 1 bahagi, 3x araw-araw.",
+  warn_en:"Monitor kidney function with prolonged use; consult a doctor before use if pregnant or with existing kidney disease.",
+  warn_tl:"Bantayan ang function ng bato kung matagal gagamitin; kumunsulta sa doktor kung buntis o may sakit na sa bato.",
+  sources:["Semantic Scholar phytochemical review","Urolithiasis remedy reviews"]
+},
+{
+  id:"yerbabuena", tl:"Yerba Buena", en:"Peppermint / Spearmint", sci:"Mentha spicata",
+  category:"digestive", icon:"🌿", doh:true, evidence:"moderate",
+  use_en:"Used for stomach ache, headache, colds, and as an antiseptic/pain reliever.",
+  use_tl:"Ginagamit sa sakit ng tiyan, sakit ng ulo, sipon, at bilang antiseptic o pampawala ng sakit.",
+  compounds:["Carvone (~67%)","Limonene","Myrcene","Phenolic compounds"],
+  evsum:"Studies show antimicrobial and antioxidant activity comparable to some antibiotics in lab testing. Methanolic extract has higher phenolic/antioxidant content; essential oil shows antibacterial activity.",
+  prep_en:"Boil a handful of fresh leaves in 2 cups water for 10–15 minutes; drink as tea. Crushed leaves can be applied topically for minor aches.",
+  prep_tl:"Pakuluan ang isang dakot ng sariwang dahon sa 2 tasang tubig ng 10–15 minuto; inumin bilang tsaa. Puwede ring idikit ang dinurog na dahon sa masakit na bahagi.",
+  warn_en:"Generally safe in food amounts; concentrated essential oil should not be taken undiluted. Avoid excess in pregnancy.",
+  warn_tl:"Karaniwang ligtas sa dami na katulad ng pagluluto; iwasan ang purong essential oil. Iwasan ang sobrang dami kung buntis.",
+  sources:["Antimicrobial/antioxidant activity studies (GC/MS)"]
+},
+{
+  id:"akapulko", tl:"Akapulko", en:"Ringworm bush, Candle bush", sci:"Senna alata",
+  category:"skin", icon:"🩹", doh:true, evidence:"strong",
+  use_en:"Treats fungal skin infections (ringworm, scabies, athlete's foot, tinea); also used as a laxative/dewormer.",
+  use_tl:"Panlunas sa buni, galis, at iba pang fungal na sakit sa balat; ginagamit din bilang pampadumi.",
+  compounds:["Chrysophanic acid","Phenols","Flavonoids"],
+  evsum:"DOH-approved, one of 10 officially validated medicinal plants. Philippine clinical trials and a systematic review confirm topical efficacy against fungal skin infections comparable to conventional antifungals.",
+  prep_en:"Pound fresh, mature leaves; apply directly (like soap) to affected skin area 1–2 times daily until infection clears.",
+  prep_tl:"Durugin ang sariwa at hinog na dahon; ipahid nang direkta sa apektadong balat, 1–2x araw-araw hanggang gumaling.",
+  warn_en:"For external use only on skin infections; do not apply to broken skin or eyes. Internal use as a laxative should be closely dosed.",
+  warn_tl:"Panlabas na gamit lamang para sa balat; huwag ipahid sa sugat o mata. Kung inumin bilang pampadumi, mag-ingat sa dosage.",
+  sources:["PMC9930843","Acta Medica Philippina Vol 54 No 1 (2020)","DOST-PCHRD Akapulko program"]
+},
+{
+  id:"niyognig", tl:"Niyog-niyogan", en:"Rangoon creeper, Chinese honeysuckle", sci:"Quisqualis indica",
+  category:"parasitic", icon:"🪱", doh:true, evidence:"strong",
+  use_en:"Expels intestinal worms/parasites (anthelmintic/dewormer).",
+  use_tl:"Nagpapalabas ng bulate sa bituka (deworming).",
+  compounds:["Quisqualic acid"],
+  evsum:"DOH-approved, listed among the original 10 medicinal plants endorsed since 1992. Confirms anthelmintic activity against roundworm (Ascaris) and other intestinal parasites.",
+  prep_en:"Only mature, dried seeds are used. Eat raw 2 hours before the last meal of the day. Adults: 8–10 seeds; children 8–9 y/o: 6–7 seeds; 4–7 y/o: up to 4 seeds. NOT for children under 4.",
+  prep_tl:"Tuyo at hinog na buto lang ang gamitin. Kainin ng hilaw, 2 oras bago ang huling pagkain. Matanda: 8–10 buto; 8–9 taong gulang: 6–7 buto; 4–7 taong gulang: hanggang 4 na buto lang. HUWAG ibigay sa mga batang wala pang 4 taon.",
+  warn_en:"Overdose can cause hiccups, dizziness, or excitotoxic reactions. Strict dosing by age is required; not for children under 4.",
+  warn_tl:"Ang sobrang dosis ay maaaring magdulot ng sinok, pagkahilo. Sundin nang mahigpit ang dosis ayon sa edad; bawal sa batang wala pang 4 taon.",
+  sources:["DOH 10 herbal medicines list","J. Phil. Islands Medical Assoc. (anthelmintic study)"]
+},
+{
+  id:"bayabas", tl:"Bayabas", en:"Guava", sci:"Psidium guajava",
+  category:"skin", icon:"🩹", doh:true, evidence:"strong",
+  use_en:"Used as an antiseptic to wash wounds, treat diarrhea, and as a mouthwash/gargle for toothache and gum infection.",
+  use_tl:"Panlinis ng sugat (antiseptic), panlunas sa pagtatae, at pambanlaw sa bibig para sa ngipin at gilagid.",
+  compounds:["Tannins","Flavonoids","Eugenol","Malic acid"],
+  evsum:"DOH-approved. Recognized for antiseptic property; supported by studies showing anti-diarrheal, anti-inflammatory, antimicrobial, and antioxidant effects, plus renal-protective effects in diabetic animal models.",
+  prep_en:"Boil 1–2 handfuls of leaves in water for 10–15 minutes. Use decoction to wash wounds twice daily, or as a warm gargle. For diarrhea, decoction may be taken 3–4 times a day.",
+  prep_tl:"Pakuluan ang 1–2 dakot ng dahon sa tubig ng 10–15 minuto. Gamiting panlinis ng sugat 2x araw-araw, o pambanlaw. Sa pagtatae, inumin ang decoction 3–4x araw-araw.",
+  warn_en:"Excessive internal use may cause constipation. For wound care, use only as a wash, not on deep or serious wounds without medical care.",
+  warn_tl:"Ang sobrang inom ay maaaring magdulot ng constipation. Huwag gamitin sa malalim na sugat nang walang gamutan mula sa doktor.",
+  sources:["ScienceDirect S0378874108000536","NNC Philippines home remedy guide"]
+},
+{
+  id:"ulasimang", tl:"Ulasimang Bato / Pansit-pansitan", en:"Silver bush", sci:"Peperomia pellucida",
+  category:"joint", icon:"🦴", doh:true, evidence:"moderate",
+  use_en:"Lowers uric acid levels; used for rheumatism and gout.",
+  use_tl:"Nagpapababa ng uric acid; ginagamit sa rayuma at gout.",
+  compounds:["Flavonoids","Antioxidant compounds"],
+  evsum:"DOH-approved. Traditionally used and officially recommended for gout/rheumatism; supporting studies show anti-inflammatory and antioxidant activity, though large-scale human clinical trials remain limited.",
+  prep_en:"Boil 1.5 cups fresh leaves in 2 glasses of water over low fire, uncovered. Drink the decoction regularly.",
+  prep_tl:"Pakuluan ang 1.5 tasang sariwang dahon sa 2 basong tubig, mahinang apoy, hindi tinatakpan. Inumin nang regular.",
+  warn_en:"Consult a doctor if using alongside prescribed gout medication; not a replacement for medical treatment of chronic gout.",
+  warn_tl:"Kumunsulta sa doktor kung may iniinom nang gamot para sa gout; hindi ito kapalit ng tunay na gamutan.",
+  sources:["RNpedia DOH herbal medicine list"]
+},
+{
+  id:"tsaanggubat", tl:"Tsaang-gubat", en:"Forest tea, wild tea", sci:"Carmona retusa",
+  category:"digestive", icon:"🌿", doh:true, evidence:"strong",
+  use_en:"Relieves stomach ache and diarrhea; also used for digestive/biliary colic.",
+  use_tl:"Panlunas sa sakit ng tiyan at pagtatae; ginagamit din sa colic.",
+  compounds:["Alpha-amyrin","Beta-amyrin","Baurenol","Tannins"],
+  evsum:"DOH-approved. Clinically studied in tablet form: proven effective and safe for relieving gastrointestinal and biliary colic pain within 30 min–1.5 hrs of a single dose.",
+  prep_en:"Adults: 2 tbsp dried (or 3 tbsp fresh) chopped leaves; boil in 1 glass water, covered, simmer uncovered until reduced to half a glass. Cool, strain, drink warm.",
+  prep_tl:"Matanda: 2 kutsarang tuyo (o 3 kutsarang sariwa) na tinadtad na dahon; pakuluan sa 1 basong tubig, may takip, hanggang kumulang ng kalahati. Palamigin, salain, inumin habang mainit-init pa.",
+  warn_en:"If stomach ache persists an hour after drinking, consult a doctor rather than repeating doses.",
+  warn_tl:"Kung hindi pa rin gumaling ang sakit ng tiyan pagkalipas ng isang oras, kumunsulta sa doktor imbes na uminom ulit.",
+  sources:["DOST-PCHRD Biliary/Intestinal Colic study","PubMed 9462048"]
+},
+{
+  id:"bawang", tl:"Bawang", en:"Garlic", sci:"Allium sativum",
+  category:"cardio", icon:"❤️", doh:true, evidence:"strong",
+  use_en:"Lowers blood cholesterol and blood pressure (hypertension); also used for toothache.",
+  use_tl:"Nagpapababa ng cholesterol at altapresyon; ginagamit din sa sakit ng ngipin.",
+  compounds:["Allicin","Ajoene"],
+  evsum:"DOH-approved. A systematic review of 18 randomized controlled trials found aged garlic extract and garlic powder tablets significantly reduced systolic blood pressure (avg. 11.2 mmHg) and LDL cholesterol.",
+  prep_en:"Fry, roast, soak in vinegar for 30 min, or blanch in boiling water for 5 min. Take 2 pieces, 3x daily after meals. For toothache: pound a small piece and apply to the affected area.",
+  prep_tl:"Iprito, i-roast, ibabad sa suka ng 30 minuto, o iluto sa kumukulong tubig ng 5 minuto. Kumain ng 2 piraso, 3x araw-araw pagkatapos kumain. Sa sakit ng ngipin: durugin at ipahid.",
+  warn_en:"May irritate the GI tract in people with digestive issues; can increase bleeding risk before surgery; consult a doctor before use in pregnancy.",
+  warn_tl:"Maaaring makairita sa tiyan ng may sakit sa digestive system; maaaring dagdagan ang panganib ng pagdurugo bago mag-opera; kumunsulta sa doktor kung buntis.",
+  sources:["ScienceDirect S2210803319300399","NIH UP Manila garlic review 2008"]
+},
+{
+  id:"kaningag", tl:"Kaningag / Kalingag", en:"Philippine cinnamon", sci:"Cinnamomum mercadoi",
+  category:"digestive", icon:"🌿", doh:false, evidence:"emerging",
+  use_en:"Traditionally used for digestive troubles (loss of appetite, bloating, vomiting), headaches, dysentery, and rheumatism.",
+  use_tl:"Tradisyonal na ginagamit sa problema sa pagtunaw ng pagkain, sakit ng ulo, dysentery, at rayuma.",
+  compounds:["Terpenoids","Tannins","Flavonoids","Safrole"],
+  evsum:"Limited but growing research. Lab studies show antimicrobial activity from bark and leaf essential oils. A separate study found the bark extract has anti-diarrheal activity in animal testing.",
+  prep_en:"Traditionally prepared as a bark decoction (boiled in water) for digestive complaints. Can also be used as a tea from bark chips.",
+  prep_tl:"Karaniwang pinapakuluan ang balat (bark) para gawing inumin sa problema sa pagtunaw.",
+  warn_en:"Limited human safety data available since it is understudied; use in moderation and prefer decoctions over concentrated essential oil.",
+  warn_tl:"Kaunti pa lang ang pag-aaral tungkol dito; gamitin nang katamtaman.",
+  sources:["Philippine Journal of Science 132(1):27-32","ResearchGate 2025 antimicrobial study"]
+},
+{
+  id:"lunasbagontapol", tl:"Lunas bagon-tapol", en:"Piper (wild pepper vine)", sci:"Piper decumanum",
+  category:"traditional", icon:"🍃", doh:false, evidence:"weak",
+  use_en:"Traditionally used by the Agusan Manobo tribe for insect and snake bites, along with reproductive issues, ulcers, and diarrhea.",
+  use_tl:"Tradisyonal na ginagamit ng tribong Agusan Manobo para sa kagat ng insekto/ahas, at iba pang karamdaman.",
+  compounds:["Not yet isolated in available literature"],
+  evsum:"Documented as one of the most culturally important medicinal plants in a formal ethnopharmacological survey of the Agusan Manobo (Use Report >1000). No clinical trials or lab-isolated compound studies found yet.",
+  prep_en:"No standardized modern preparation documented; traditionally prepared and administered by tribal herbalists (herbolarios).",
+  prep_tl:"Walang naitalang modernong paraan ng paggawa; tradisyonal na inihahanda ng mga herbolario.",
+  warn_en:"Not scientifically validated for safety or dosage. Should not be used as a substitute for proper snake-bite medical treatment/antivenom.",
+  warn_tl:"Hindi pa pinapatunayan ng agham. Huwag gamiting kapalit ng tunay na gamot o antivenom sa kagat ng ahas.",
+  sources:["PMC7227330 Agusan Manobo ethnopharmacological study","Mongabay news feature 2020"]
+},
+{
+  id:"lunastaguli", tl:"Lunas-taguli", en:"Lunas vine", sci:"Anodendron borneense",
+  category:"traditional", icon:"🍃", doh:false, evidence:"weak",
+  use_en:"Traditionally used by the Agusan Manobo tribe for insect/snake bites, reproductive problems, cancer, and ulcers.",
+  use_tl:"Tradisyonal na ginagamit ng tribong Agusan Manobo para sa kagat ng insekto/ahas at iba pang karamdaman.",
+  compounds:["Not yet isolated in available literature"],
+  evsum:"The single most cited medicinal plant in the Agusan Manobo ethnopharmacological survey (Use Report 1134, highest use-value across 12 categories). No clinical trials or lab-isolated compound studies found yet.",
+  prep_en:"No standardized modern preparation documented; traditionally prepared and administered by tribal herbalists.",
+  prep_tl:"Walang naitalang modernong paraan ng paggawa; tradisyonal na inihahanda ng mga herbolario.",
+  warn_en:"Not scientifically validated for safety or dosage. Should not replace proper medical treatment for snake bites.",
+  warn_tl:"Hindi pa pinapatunayan ng agham. Huwag gamiting kapalit ng tunay na gamot sa kagat ng ahas.",
+  sources:["PMC7227330 Agusan Manobo ethnopharmacological study"]
+},
+{
+  id:"lunaskahoy", tl:"Lunas-kahoy", en:"Limeberry", sci:"Micromelum minutum",
+  category:"traditional", icon:"🍃", doh:false, evidence:"weak",
+  use_en:"Traditionally used by the Agusan Manobo tribe for insect/snake bites and other ailments across 9 use categories.",
+  use_tl:"Tradisyonal na ginagamit ng tribong Agusan Manobo para sa kagat ng insekto/ahas at iba pang karamdaman.",
+  compounds:["Not yet isolated in available literature"],
+  evsum:"Documented with a high Use Report (955) and use-value in the Agusan Manobo ethnopharmacological survey. No clinical trials or lab-isolated compound studies found yet.",
+  prep_en:"No standardized modern preparation documented; traditionally prepared and administered by tribal herbalists.",
+  prep_tl:"Walang naitalang modernong paraan ng paggawa; tradisyonal na inihahanda ng mga herbolario.",
+  warn_en:"Not scientifically validated for safety or dosage.",
+  warn_tl:"Hindi pa pinapatunayan ng agham.",
+  sources:["PMC7227330 Agusan Manobo ethnopharmacological study"]
+},
+{
+  id:"albutra", tl:"Albutra", en:"Yellow fruit moonseed, yellow root", sci:"Arcangelisia flava",
+  category:"traditional", icon:"🍃", doh:false, evidence:"weak",
+  use_en:"Traditionally used for insect/snake bites, wounds, and other ailments; related species used regionally as antimicrobial.",
+  use_tl:"Tradisyonal na ginagamit sa kagat ng insekto/ahas, sugat, at iba pang karamdaman.",
+  compounds:["Berberine-type alkaloids (reported in related studies)"],
+  evsum:"Documented in the Agusan Manobo ethnopharmacological survey (Use Report 922). Separate Indonesian studies found antimicrobial activity, but no Philippine clinical studies found.",
+  prep_en:"No standardized modern preparation documented; traditionally prepared and administered by tribal herbalists.",
+  prep_tl:"Walang naitalang modernong paraan ng paggawa; tradisyonal na inihahanda ng mga herbolario.",
+  warn_en:"Not scientifically validated for safety or dosage in a Philippine clinical context.",
+  warn_tl:"Hindi pa pinapatunayan ng agham sa konteksto ng Pilipinas.",
+  sources:["PMC7227330 Agusan Manobo ethnopharmacological study","PMC10270767 Indonesian endophytic bacteria study"]
+},
+];
+
+/* ================= SUPABASE CONFIG =================
+   1. Create a free project at supabase.com
+   2. Run the SQL from the setup guide to create the `community_herbs` table
+   3. Go to Project Settings -> API and paste your values below
+*/
+const SUPABASE_URL = "PASTE_YOUR_SUPABASE_PROJECT_URL_HERE";
+const SUPABASE_ANON_KEY = "PASTE_YOUR_SUPABASE_ANON_KEY_HERE";
+const SUPABASE_CONFIGURED = !SUPABASE_URL.startsWith("PASTE_") && !SUPABASE_ANON_KEY.startsWith("PASTE_");
+const supabaseClient = SUPABASE_CONFIGURED
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  : null;
+
+const ICON_PATHS = {
+  all: '<path d="M12 2l1.7 6.8L20 10l-6.3 1.2L12 18l-1.7-6.8L4 10l6.3-1.2z"/>',
+  respiratory: '<path d="M12 3v6"/><path d="M9 9c-2.2 0-3.5 2.1-3.5 5.3v3.2a2.3 2.3 0 0 0 4.6 0v-5"/><path d="M15 9c2.2 0 3.5 2.1 3.5 5.3v3.2a2.3 2.3 0 0 1-4.6 0v-5"/>',
+  urinary: '<path d="M12 3.3c3.2 4.2 6 8.3 6 11.5A6 6 0 1 1 6 14.8c0-3.2 2.8-7.3 6-11.5z"/>',
+  digestive: '<path d="M4.5 19C12 20 18 15 19 5 10 5.5 4.5 10.5 4.5 19z"/><path d="M5 18.5c2-4 5-7.3 9-9.5"/>',
+  skin: '<circle cx="12" cy="12" r="8.3"/><path d="M12 8.2V15.8M8.2 12h7.6"/>',
+  parasitic: '<path d="M3.5 8c2-2.6 3.8-2.6 5.8 0s3.8 2.6 5.8 0s3.8-2.6 5.8 0"/><path d="M3.5 15.5c2-2.6 3.8-2.6 5.8 0s3.8 2.6 5.8 0s3.8-2.6 5.8 0"/>',
+  joint: '<path d="M6 12h12"/><circle cx="6" cy="8.6" r="2.1"/><circle cx="6" cy="15.4" r="2.1"/><circle cx="18" cy="8.6" r="2.1"/><circle cx="18" cy="15.4" r="2.1"/>',
+  cardio: '<path d="M12 19.5s-6.8-4.3-9-8.5C1.5 7.8 3.2 5 6.2 4.6c1.9-.3 3.7.7 5.8 2.9 2.1-2.2 3.9-3.2 5.8-2.9 3 .4 4.7 3.2 3.2 6.4-2.2 4.2-9 8.5-9 8.5z"/>',
+  traditional: '<path d="M12 21V8.5"/><path d="M12 12.5c0-2.8-2.6-4.6-5.4-4.6.2 2.8 2 4.6 5.4 4.6z"/><path d="M12 8.5c0-2.8 2.6-4.6 5.4-4.6-.2 2.8-2 4.6-5.4 4.6z"/><path d="M12 16.8c0-2.2-2.2-3.6-4.6-3.6.2 2.2 1.8 3.6 4.6 3.6z"/><path d="M12 16.8c0-2.2 2.2-3.6 4.6-3.6-.2 2.2-1.8 3.6-4.6 3.6z"/>'
+};
+function svgIcon(category, size, extraStyle){
+  const path = ICON_PATHS[category] || ICON_PATHS.all;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="${extraStyle||''}">${path}</svg>`;
+}
+
+let communityHerbs = [];   // reviewed=true submissions, loaded from Supabase, visible to everyone
+let mySubmissions = [];    // everything YOU submitted this session, regardless of review status
+
+function mapRowToHerb(row){
+  return {
+    id: row.id, tl: row.tl, en: row.en || (row.region ? `Submitted from ${row.region}` : "Community submission"),
+    sci: row.sci || "", icon:"🌱", category:"traditional", evidence:"weak", doh:false, community:true,
+    reviewed: row.reviewed,
+    use_en: row.use_text, use_tl: row.use_text,
+    prep_en: row.prep_text || "Not specified.", prep_tl: row.prep_text || "Hindi natukoy.",
+    warn_en:"Community-submitted. Not independently checked against scientific literature — treat as anecdotal, family-tradition knowledge.",
+    warn_tl:"Isinumite ng komunidad. Hindi pa na-verify sa pananaliksik — tratuhing tradisyon ng pamilya, hindi pa siyentipikong napatunayan.",
+    compounds:["Not yet researched"],
+    evsum:"This entry was submitted by a community member." + (row.reviewed ? " It has been reviewed and published." : " It is awaiting review before appearing in the main directory."),
+    sources:["Community submission" + (row.region ? ` — ${row.region}` : "")]
+  };
+}
+
+async function loadCommunityHerbs(){
+  if(!SUPABASE_CONFIGURED) return;
+  const { data, error } = await supabaseClient
+    .from("community_herbs")
+    .select("*")
+    .eq("reviewed", true)
+    .order("created_at", { ascending:false });
+  if(error){ console.error("Supabase load error:", error); return; }
+  communityHerbs = (data||[]).map(mapRowToHerb);
+  renderList();
+}
+
+const CATEGORIES = [
+  {key:"all", en:"All", tl:"Lahat", icon:"✦"},
+  {key:"respiratory", en:"Respiratory", tl:"Paghinga", icon:"🫁"},
+  {key:"urinary", en:"Urinary", tl:"Ihi", icon:"💧"},
+  {key:"digestive", en:"Digestive", tl:"Pagtunaw", icon:"🌿"},
+  {key:"skin", en:"Skin / Wound", tl:"Balat / Sugat", icon:"🩹"},
+  {key:"parasitic", en:"Deworming", tl:"Bulate", icon:"🪱"},
+  {key:"joint", en:"Joint / Uric Acid", tl:"Rayuma", icon:"🦴"},
+  {key:"cardio", en:"Heart / BP", tl:"Puso", icon:"❤️"},
+  {key:"traditional", en:"Traditional Use", tl:"Tradisyonal", icon:"🍃"},
+];
+
+const EVIDENCE = {
+  strong:{icon:"✓", en:"Strong Evidence", tl:"Matibay na Ebidensya", desc_en:"DOH-approved / clinical trials", desc_tl:"DOH-approved / may clinical trial"},
+  moderate:{icon:"◐", en:"Moderate Evidence", tl:"Katamtamang Ebidensya", desc_en:"Lab-confirmed, limited human trials", desc_tl:"Napatunayan sa lab, kaunting human trial"},
+  emerging:{icon:"◇", en:"Emerging Research", tl:"Umuusbong na Pananaliksik", desc_en:"Traditional use documented, science developing", desc_tl:"May tradisyonal na gamit, patuloy pang pinag-aaralan"},
+  weak:{icon:"◯", en:"Traditional Only", tl:"Tradisyonal Lamang", desc_en:"Indigenous use documented, not clinically tested", desc_tl:"May tradisyonal na gamit, hindi pa na-eeksperimento"},
+};
+
+const I18N = {
+  en:{
+    eyebrow:"PH Herb Directory", searchPlaceholder:"Search herbs or ailments...", allHerbs:"All Herbs",
+    navHome:"Home", navAdd:"Add Herb", navMine:"Mine", dohApproved:"DOH-APPROVED",
+    fUse:"🌾 Traditional Use", fPrep:"🍵 How to Prepare & Use", fCompounds:"🧪 Active Compounds",
+    fEvidence:"📖 What the Research Shows", fWarn:"⚠️ Warnings & Side Effects", fSources:"📚 Sources",
+    disclaimer:"This app is for educational/research purposes and is not a substitute for professional medical advice. Consult a doctor before using any herbal remedy, especially if pregnant, nursing, or taking other medication.",
+    addHerbTitle:"Share a Home Remedy", addHerbSub:"Know a Filipino herb or remedy that's not on the list? Add it here — it'll appear in the Community section, clearly marked, until it's reviewed against research.",
+    lblName:"Local / Tagalog Name", lblSci:"Scientific Name (if known)", lblUse:"What is it used for?",
+    lblPrep:"How is it prepared, in your family?", lblRegion:"Where in the Philippines is this used?",
+    communityNote:"📌 Submissions are saved to the community database and reviewed before appearing in the main directory for everyone. You can always see your own submissions — reviewed or not — under \"Mine\".",
+    cancel:"Cancel", submit:"Submit Herb", toastAdded:"Salamat! Added to Community section.",
+    resultsFor:"Results for", noResults:"No herbs found. Try another search, or add it yourself!",
+    communitySection:"Community Submitted", notReviewed:"Not Yet Reviewed", yourSubmissions:"Your Submissions",
+    noneYet:"You haven't submitted any herbs yet. Tap \"Add Herb\" below to share one.",
+    fillRequired:"Please fill in at least the name and use.",
+    logIn:"Log In", loggedOutMine:"Log in to see and track your own submissions.",
+    loginTitle:"Log In", loginSub:"Log in to submit herbs, comment, and upvote what actually works.",
+    signupTitle:"Create Account", signupSub:"Join LikasLunas to share your family's remedies with other Filipinos.",
+    lblDisplayName:"Display Name", lblEmail:"Email", lblPassword:"Password",
+    loginSubmit:"Log In", signupSubmit:"Create Account",
+    noAccount:"Don't have an account?", hasAccount:"Already have an account?",
+    switchToSignup:"Sign up", switchToLogin:"Log in",
+    welcomeBack:"Welcome back!", checkEmail:"Check your email to confirm your account.", loggedOut:"Logged out.",
+    loginRequiredAdd:"Log in to add a herb.", loginRequiredVote:"Log in to vote.", loginRequiredComment:"Log in to comment.",
+    fComments:"💬 Comments", helpful:"Helpful", commentPlaceholder:"Share your family's experience...",
+    noComments:"No comments yet. Be the first!", justNow:"just now"
+  },
+  tl:{
+    eyebrow:"Direktoryo ng Halamang Gamot", searchPlaceholder:"Maghanap ng halaman o sakit...", allHerbs:"Lahat ng Halaman",
+    navHome:"Home", navAdd:"Magdagdag", navMine:"Akin", dohApproved:"DOH-APPROVED",
+    fUse:"🌾 Tradisyonal na Gamit", fPrep:"🍵 Paano Gawin at Gamitin", fCompounds:"🧪 Aktibong Sangkap",
+    fEvidence:"📖 Ano ang Sinasabi ng Pananaliksik", fWarn:"⚠️ Babala at Side Effects", fSources:"📚 Pinagkunan",
+    disclaimer:"Ang app na ito ay para sa edukasyon/pananaliksik lamang at hindi kapalit ng payo ng doktor. Kumunsulta muna sa doktor bago gumamit ng anumang halamang gamot, lalo na kung buntis, nagpapasuso, o may iniinom nang gamot.",
+    addHerbTitle:"Magbahagi ng Gamot sa Bahay", addHerbSub:"May alam ka bang halaman o remedyo na wala pa sa listahan? Idagdag dito — lalabas ito sa Community section, malinaw na naka-marka, hanggang ma-review ito.",
+    lblName:"Lokal / Tagalog na Pangalan", lblSci:"Scientific Name (kung alam)", lblUse:"Ano ang gamit nito?",
+    lblPrep:"Paano niyo ito ginagawa sa inyong pamilya?", lblRegion:"Saan sa Pilipinas ito ginagamit?",
+    communityNote:"📌 Ang mga isinumite ay naka-save sa community database at rine-review muna bago lumabas sa main directory para sa lahat. Makikita mo pa rin ang sarili mong isinumite — na-review man o hindi — sa ilalim ng \"Akin\".",
+    cancel:"Kanselahin", submit:"I-submit", toastAdded:"Salamat! Naidagdag sa Community section.",
+    resultsFor:"Resulta para sa", noResults:"Walang nahanap na halaman. Subukan ang ibang salita, o idagdag mo na lang!",
+    communitySection:"Isinumite ng Komunidad", notReviewed:"Hindi Pa Na-review", yourSubmissions:"Mga Isinumite Mo",
+    noneYet:"Wala ka pang naisusumiteng halaman. Pindutin ang \"Magdagdag\" sa ibaba.",
+    fillRequired:"Pakisagutan ang pangalan at gamit, kahit man lang.",
+    logIn:"Mag-log In", loggedOutMine:"Mag-log in para makita at ma-track ang sarili mong isinumite.",
+    loginTitle:"Mag-log In", loginSub:"Mag-log in para makapag-submit ng halaman, mag-comment, at mag-boto.",
+    signupTitle:"Gumawa ng Account", signupSub:"Sumali sa LikasLunas para ibahagi ang gamot ng pamilya niyo sa ibang Pilipino.",
+    lblDisplayName:"Pangalang Ipapakita", lblEmail:"Email", lblPassword:"Password",
+    loginSubmit:"Mag-log In", signupSubmit:"Gumawa ng Account",
+    noAccount:"Wala pang account?", hasAccount:"May account ka na?",
+    switchToSignup:"Mag-sign up", switchToLogin:"Mag-log in",
+    welcomeBack:"Maligayang pagbabalik!", checkEmail:"Tingnan ang email mo para kumpirmahin ang account.", loggedOut:"Na-log out.",
+    loginRequiredAdd:"Mag-log in para magdagdag ng halaman.", loginRequiredVote:"Mag-log in para bumoto.", loginRequiredComment:"Mag-log in para mag-comment.",
+    fComments:"💬 Mga Komento", helpful:"Nakatulong", commentPlaceholder:"Ibahagi ang karanasan ng pamilya niyo...",
+    noComments:"Wala pang komento. Ikaw ang una!", justNow:"ngayon lang"
+  }
+};
+
+/* ================= STATE ================= */
+let lang = "en";
+let activeCategory = "all";
+let searchQuery = "";
+let currentTab = "home"; // home | mine
+let currentUser = null;
+let authMode = "login"; // login | signup
+let currentHerbId = null;
+let hasUpvoted = false;
+
+/* ================= RENDER ================= */
+function t(key){ return I18N[lang][key]; }
+
+function applyI18nStrings(){
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    el.textContent = t(el.dataset.i18n);
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{
+    el.placeholder = t(el.dataset.i18nPlaceholder);
+  });
+}
+
+function renderFilters(){
+  const wrap = document.getElementById("filters");
+  wrap.innerHTML = "";
+  CATEGORIES.forEach(cat=>{
+    const chip = document.createElement("div");
+    chip.className = "chip" + (activeCategory===cat.key ? " active":"");
+    chip.innerHTML = `<span style="display:flex;">${svgIcon(cat.key, 14)}</span><span>${lang==="en"?cat.en:cat.tl}</span>`;
+    chip.onclick = ()=>{ activeCategory = cat.key; render(); };
+    wrap.appendChild(chip);
+  });
+}
+
+function getFilteredHerbs(){
+  let pool = currentTab==="mine" ? mySubmissions : HERBS.concat(communityHerbs);
+  let list = pool.filter(h=>{
+    const matchesCat = currentTab==="mine" || activeCategory==="all" || h.category===activeCategory;
+    const q = searchQuery.trim().toLowerCase();
+    const matchesSearch = !q ||
+      h.tl.toLowerCase().includes(q) ||
+      h.en.toLowerCase().includes(q) ||
+      (h.sci && h.sci.toLowerCase().includes(q)) ||
+      (h.use_en && h.use_en.toLowerCase().includes(q)) ||
+      (h.use_tl && h.use_tl.toLowerCase().includes(q));
+    return matchesCat && matchesSearch;
+  });
+  return list;
+}
+
+function renderList(){
+  const listEl = document.getElementById("herb-list");
+  const titleEl = document.getElementById("list-title");
+  const countEl = document.getElementById("list-count");
+  listEl.innerHTML = "";
+
+  if(!SUPABASE_CONFIGURED){
+    listEl.innerHTML = `<div class="empty-state"><div class="glyph">⚙️</div><p>${lang==="en" ? "Community database isn't connected yet. The herb directory below still works fully — see the setup guide to enable submissions." : "Hindi pa naka-connect ang community database. Gumagana pa rin ang herb directory sa ibaba — tingnan ang setup guide para i-enable ang submissions."}</p></div>`;
+  }
+
+  if(currentTab==="mine"){
+    titleEl.textContent = t("yourSubmissions");
+    document.getElementById("filters").style.display = "none";
+    if(!currentUser){
+      listEl.innerHTML = `<div class="empty-state"><div class="glyph">🔒</div><p>${t("loggedOutMine")}</p><button id="mine-login-btn" class="btn primary" style="max-width:180px;margin:16px auto 0;">${t("logIn")}</button></div>`;
+      document.getElementById("mine-login-btn").onclick = ()=> openAuthModal("login");
+      countEl.textContent = "";
+      return;
+    }
+    if(mySubmissions.length===0){
+      listEl.innerHTML = `<div class="empty-state"><div class="glyph">🌱</div><p>${t("noneYet")}</p></div>`;
+      countEl.textContent = "";
+      return;
+    }
+  } else {
+    document.getElementById("filters").style.display = "flex";
+    titleEl.textContent = searchQuery ? `${t("resultsFor")} "${searchQuery}"` : t("allHerbs");
+  }
+
+  const list = getFilteredHerbs();
+  countEl.textContent = list.length ? `${list.length}` : "";
+
+  if(list.length===0){
+    listEl.innerHTML = `<div class="empty-state"><div class="glyph">🔎</div><p>${t("noResults")}</p></div>`;
+    return;
+  }
+
+  list.forEach(h=>{
+    const card = document.createElement("div");
+    card.className = "herb-card";
+    const isCommunity = h.community;
+    const pendingBadge = `<span class="community-flag">${lang==="en" ? "Pending Review" : "Hinihintay ang Review"}</span>`;
+    const publishedBadge = `<span class="community-flag" style="background:rgba(61,107,65,0.16); color:var(--strong);">${lang==="en" ? "Community Verified" : "Verified ng Komunidad"}</span>`;
+    card.innerHTML = `
+      <div class="herb-thumb">${svgIcon(h.category, 24, 'color:var(--gold-soft);')}</div>
+      <div class="herb-info">
+        <h3>${h.tl}</h3>
+        <div class="alt">${h.en}</div>
+        <div class="herb-tags">
+          ${isCommunity
+            ? (h.reviewed ? publishedBadge : pendingBadge)
+            : `<span class="stamp ${h.evidence}"></span><span class="tag cat">${categoryLabel(h.category)}</span>`
+          }
+        </div>
+      </div>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M9 18l6-6-6-6"/></svg>
+    `;
+    card.onclick = ()=> openDetail(h);
+    listEl.appendChild(card);
+  });
+}
+
+function categoryLabel(key){
+  const c = CATEGORIES.find(c=>c.key===key);
+  if(!c) return "";
+  return lang==="en" ? c.en : c.tl;
+}
+
+function openDetail(h){
+  document.getElementById("d-name").textContent = h.tl;
+  document.getElementById("d-sci").textContent = h.sci || "";
+  document.getElementById("d-alt").textContent = h.en;
+
+  const evKey = h.evidence || "weak";
+  const ev = EVIDENCE[evKey];
+  const badge = document.getElementById("d-ev-badge");
+  badge.className = "evidence-badge " + evKey;
+  badge.textContent = ev.icon;
+  document.getElementById("d-ev-label").textContent = lang==="en" ? ev.en : ev.tl;
+  document.getElementById("d-ev-desc").textContent = lang==="en" ? ev.desc_en : ev.desc_tl;
+  document.getElementById("d-doh").style.display = h.doh ? "block" : "none";
+
+  document.getElementById("d-use").textContent = lang==="en" ? h.use_en : h.use_tl;
+  document.getElementById("d-prep").textContent = lang==="en" ? h.prep_en : h.prep_tl;
+  document.getElementById("d-warn").textContent = lang==="en" ? h.warn_en : h.warn_tl;
+  document.getElementById("d-evsum").textContent = h.evsum || (lang==="en" ? "Not yet reviewed against published research." : "Hindi pa na-review sa mga pag-aaral.");
+
+  const compWrap = document.getElementById("d-compounds");
+  compWrap.innerHTML = "";
+  (h.compounds||["—"]).forEach(c=>{
+    const s = document.createElement("span"); s.textContent = c; compWrap.appendChild(s);
+  });
+
+  const srcWrap = document.getElementById("d-sources");
+  srcWrap.innerHTML = "";
+  (h.sources||["Community submitted — no formal source yet"]).forEach(s=>{
+    const d = document.createElement("div"); d.textContent = s; srcWrap.appendChild(d);
+  });
+
+  document.getElementById("detail").classList.add("open");
+  window.scrollTo(0,0);
+  loadEngagement(h.id);
+}
+
+function closeDetail(){
+  document.getElementById("detail").classList.remove("open");
+}
+
+function showToast(msg){
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  setTimeout(()=> el.classList.remove("show"), 2400);
+}
+
+function render(){
+  applyI18nStrings();
+  renderFilters();
+  renderList();
+  document.getElementById("nav-home").classList.toggle("active", currentTab==="home");
+  document.getElementById("nav-mine").classList.toggle("active", currentTab==="mine");
+}
+
+/* ================= AUTH ================= */
+function updateAuthUI(){
+  const btn = document.getElementById("auth-btn");
+  if(currentUser){
+    const name = currentUser.user_metadata?.display_name || currentUser.email.split("@")[0];
+    btn.textContent = "👤 " + name;
+    btn.removeAttribute("data-i18n");
+  } else {
+    btn.textContent = t("logIn");
+    btn.dataset.i18n = "logIn";
+  }
+}
+
+function renderAuthModal(){
+  const isSignup = authMode === "signup";
+  document.getElementById("auth-name-field").style.display = isSignup ? "block" : "none";
+  document.getElementById("auth-modal-title").textContent = isSignup ? t("signupTitle") : t("loginTitle");
+  document.getElementById("auth-modal-sub").textContent = isSignup ? t("signupSub") : t("loginSub");
+  document.getElementById("auth-submit").textContent = isSignup ? t("signupSubmit") : t("loginSubmit");
+  document.getElementById("auth-submit").disabled = false;
+  const switchWrap = document.getElementById("auth-switch-text");
+  switchWrap.innerHTML = isSignup
+    ? `${t("hasAccount")} <a href="#" id="auth-switch-link">${t("switchToLogin")}</a>`
+    : `${t("noAccount")} <a href="#" id="auth-switch-link">${t("switchToSignup")}</a>`;
+  document.getElementById("auth-switch-link").onclick = (e)=>{
+    e.preventDefault(); authMode = isSignup ? "login" : "signup"; renderAuthModal();
+  };
+  document.getElementById("auth-error").style.display = "none";
+}
+
+function openAuthModal(mode){
+  authMode = mode || "login";
+  document.getElementById("f-auth-email").value = "";
+  document.getElementById("f-auth-password").value = "";
+  document.getElementById("f-auth-name").value = "";
+  renderAuthModal();
+  document.getElementById("auth-modal-overlay").classList.add("open");
+}
+
+async function loadMySubmissions(){
+  if(!SUPABASE_CONFIGURED || !currentUser){ mySubmissions = []; return; }
+  const { data, error } = await supabaseClient
+    .from("community_herbs")
+    .select("*")
+    .eq("user_id", currentUser.id)
+    .order("created_at", { ascending:false });
+  if(error){ console.error("Load my submissions error:", error); return; }
+  mySubmissions = (data||[]).map(mapRowToHerb);
+  if(currentTab==="mine") renderList();
+}
+
+/* ================= UPVOTES + COMMENTS ================= */
+function escapeHtml(str){
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function timeAgo(iso){
+  const diff = (Date.now() - new Date(iso).getTime()) / 1000;
+  if(diff < 60) return t("justNow");
+  if(diff < 3600) return Math.floor(diff/60) + (lang==="en" ? "m ago" : "min nakalipas");
+  if(diff < 86400) return Math.floor(diff/3600) + (lang==="en" ? "h ago" : "oras nakalipas");
+  return Math.floor(diff/86400) + (lang==="en" ? "d ago" : "araw nakalipas");
+}
+
+function renderComments(comments){
+  const el = document.getElementById("d-comments");
+  if(!comments || comments.length===0){
+    el.innerHTML = `<p style="font-size:12.5px;color:#8A9686;padding:4px 0;">${t("noComments")}</p>`;
+    return;
+  }
+  el.innerHTML = comments.map(c => `
+    <div class="comment-card">
+      <div class="comment-head"><strong>${escapeHtml(c.display_name)}</strong><span>${timeAgo(c.created_at)}</span></div>
+      <p>${escapeHtml(c.body)}</p>
+    </div>
+  `).join("");
+}
+
+async function loadEngagement(herbId){
+  currentHerbId = herbId;
+  const countEl = document.getElementById("d-upvote-count");
+  const upvoteBtn = document.getElementById("d-upvote-btn");
+  const commentsEl = document.getElementById("d-comments");
+
+  if(!SUPABASE_CONFIGURED){
+    countEl.textContent = "0";
+    upvoteBtn.classList.remove("active");
+    commentsEl.innerHTML = `<p style="font-size:12.5px;color:#8A9686;">${lang==="en" ? "Comments need the database connected first." : "Kailangan munang ma-connect ang database."}</p>`;
+    return;
+  }
+
+  const { count } = await supabaseClient.from("upvotes").select("*", { count:"exact", head:true }).eq("herb_id", herbId);
+  countEl.textContent = count ?? 0;
+
+  hasUpvoted = false;
+  if(currentUser){
+    const { data } = await supabaseClient.from("upvotes").select("id").eq("herb_id", herbId).eq("user_id", currentUser.id).maybeSingle();
+    hasUpvoted = !!data;
+  }
+  upvoteBtn.classList.toggle("active", hasUpvoted);
+
+  const { data:comments, error } = await supabaseClient.from("comments").select("*").eq("herb_id", herbId).order("created_at", { ascending:false });
+  if(error){ console.error("Load comments error:", error); renderComments([]); return; }
+  renderComments(comments);
+}
+
+/* ================= EVENTS ================= */
+document.getElementById("btn-en").onclick = ()=>{ lang="en"; document.getElementById("btn-en").classList.add("active"); document.getElementById("btn-tl").classList.remove("active"); render(); };
+document.getElementById("btn-tl").onclick = ()=>{ lang="tl"; document.getElementById("btn-tl").classList.add("active"); document.getElementById("btn-en").classList.remove("active"); render(); };
+
+document.getElementById("search").addEventListener("input", (e)=>{ searchQuery = e.target.value; renderList(); });
+
+document.getElementById("back-btn").onclick = closeDetail;
+
+document.getElementById("nav-home").onclick = ()=>{ currentTab="home"; render(); };
+document.getElementById("nav-mine").onclick = ()=>{ currentTab="mine"; render(); };
+document.getElementById("nav-add").onclick = ()=>{
+  if(!currentUser){ showToast(t("loginRequiredAdd")); openAuthModal("login"); return; }
+  document.getElementById("modal-overlay").classList.add("open");
+};
+document.getElementById("modal-cancel").onclick = ()=> document.getElementById("modal-overlay").classList.remove("open");
+
+document.getElementById("modal-submit").onclick = async ()=>{
+  const name = document.getElementById("f-name").value.trim();
+  const sci = document.getElementById("f-sci").value.trim();
+  const use = document.getElementById("f-use").value.trim();
+  const prep = document.getElementById("f-prep").value.trim();
+  const region = document.getElementById("f-region").value.trim();
+
+  if(!name || !use){ showToast(t("fillRequired")); return; }
+  if(!currentUser){ showToast(t("loginRequiredAdd")); openAuthModal("login"); return; }
+
+  if(!SUPABASE_CONFIGURED){
+    showToast(lang==="en"
+      ? "Database not connected yet — see setup guide."
+      : "Hindi pa naka-connect ang database — tingnan ang setup guide.");
+    return;
+  }
+
+  const submitBtn = document.getElementById("modal-submit");
+  submitBtn.disabled = true;
+  submitBtn.textContent = lang==="en" ? "Submitting..." : "Isinusumite...";
+
+  const payload = { tl:name, sci:sci||null, use_text:use, prep_text:prep||null, region:region||null, reviewed:false, user_id:currentUser.id };
+  const { error } = await supabaseClient.from("community_herbs").insert([payload]).select();
+
+  submitBtn.disabled = false;
+  submitBtn.textContent = t("submit");
+
+  if(error){
+    console.error("Supabase insert error:", error);
+    showToast(lang==="en" ? "Something went wrong. Try again." : "May problema. Subukan ulit.");
+    return;
+  }
+
+  await loadMySubmissions();
+
+  document.getElementById("f-name").value="";
+  document.getElementById("f-sci").value="";
+  document.getElementById("f-use").value="";
+  document.getElementById("f-prep").value="";
+  document.getElementById("f-region").value="";
+
+  document.getElementById("modal-overlay").classList.remove("open");
+  showToast(t("toastAdded"));
+  currentTab = "mine";
+  render();
+};
+
+/* ===== auth events ===== */
+document.getElementById("auth-btn").onclick = async ()=>{
+  if(currentUser){
+    await supabaseClient.auth.signOut();
+    showToast(t("loggedOut"));
+  } else {
+    openAuthModal("login");
+  }
+};
+document.getElementById("auth-modal-cancel").onclick = ()=> document.getElementById("auth-modal-overlay").classList.remove("open");
+
+document.getElementById("auth-submit").onclick = async ()=>{
+  const email = document.getElementById("f-auth-email").value.trim();
+  const password = document.getElementById("f-auth-password").value;
+  const name = document.getElementById("f-auth-name").value.trim();
+  const errEl = document.getElementById("auth-error");
+  errEl.style.display = "none";
+
+  if(!email || !password || (authMode==="signup" && !name)){
+    errEl.textContent = t("fillRequired"); errEl.style.display = "block"; return;
+  }
+  if(!SUPABASE_CONFIGURED){
+    errEl.textContent = lang==="en" ? "Database not connected yet." : "Hindi pa naka-connect ang database.";
+    errEl.style.display = "block"; return;
+  }
+
+  const btn = document.getElementById("auth-submit");
+  btn.disabled = true; btn.textContent = "...";
+
+  const result = authMode==="signup"
+    ? await supabaseClient.auth.signUp({ email, password, options:{ data:{ display_name:name } } })
+    : await supabaseClient.auth.signInWithPassword({ email, password });
+
+  btn.disabled = false;
+
+  if(result.error){
+    errEl.textContent = result.error.message;
+    errEl.style.display = "block";
+    btn.textContent = authMode==="signup" ? t("signupSubmit") : t("loginSubmit");
+    return;
+  }
+
+  document.getElementById("auth-modal-overlay").classList.remove("open");
+  if(authMode==="signup" && !result.data.session){
+    showToast(t("checkEmail"));
+  } else {
+    showToast(t("welcomeBack"));
+  }
+  btn.textContent = authMode==="signup" ? t("signupSubmit") : t("loginSubmit");
+};
+
+/* ===== upvote + comment events ===== */
+document.getElementById("d-upvote-btn").onclick = async ()=>{
+  if(!SUPABASE_CONFIGURED || !currentHerbId) return;
+  if(!currentUser){ showToast(t("loginRequiredVote")); openAuthModal("login"); return; }
+  const countEl = document.getElementById("d-upvote-count");
+  const btn = document.getElementById("d-upvote-btn");
+  if(hasUpvoted){
+    await supabaseClient.from("upvotes").delete().eq("herb_id", currentHerbId).eq("user_id", currentUser.id);
+    hasUpvoted = false;
+    countEl.textContent = Math.max(0, parseInt(countEl.textContent||"0",10) - 1);
+  } else {
+    await supabaseClient.from("upvotes").insert([{ herb_id:currentHerbId, user_id:currentUser.id }]);
+    hasUpvoted = true;
+    countEl.textContent = parseInt(countEl.textContent||"0",10) + 1;
+  }
+  btn.classList.toggle("active", hasUpvoted);
+};
+
+document.getElementById("comment-submit").onclick = async ()=>{
+  if(!SUPABASE_CONFIGURED || !currentHerbId) return;
+  if(!currentUser){ showToast(t("loginRequiredComment")); openAuthModal("login"); return; }
+  const input = document.getElementById("comment-input");
+  const body = input.value.trim();
+  if(!body) return;
+  const name = currentUser.user_metadata?.display_name || currentUser.email.split("@")[0];
+  const { error } = await supabaseClient.from("comments").insert([{ herb_id:currentHerbId, user_id:currentUser.id, display_name:name, body }]);
+  if(error){ showToast(lang==="en" ? "Couldn't post. Try again." : "Hindi na-post. Subukan ulit."); return; }
+  input.value = "";
+  loadEngagement(currentHerbId);
+};
+
+/* init */
+render();
+loadCommunityHerbs();
+
+if(SUPABASE_CONFIGURED){
+  supabaseClient.auth.getSession().then(({ data }) => {
+    currentUser = data.session?.user || null;
+    updateAuthUI();
+    if(currentUser) loadMySubmissions();
+  });
+  supabaseClient.auth.onAuthStateChange((event, session) => {
+    currentUser = session?.user || null;
+    updateAuthUI();
+    if(currentUser){ loadMySubmissions(); }
+    else { mySubmissions = []; if(currentTab==="mine") renderList(); }
+  });
+}
+</script>
+</body>
+</html>
