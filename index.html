@@ -843,8 +843,8 @@ const HERBS = [
    2. Run the SQL from the setup guide to create the `community_herbs` table
    3. Go to Project Settings -> API and paste your values below
 */
-const SUPABASE_URL = "PASTE_YOUR_SUPABASE_PROJECT_URL_HERE";
-const SUPABASE_ANON_KEY = "PASTE_YOUR_SUPABASE_ANON_KEY_HERE";
+const SUPABASE_URL = "https://ldcapponuiuffvumgnvg.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkY2FwcG9udWl1ZmZ2dW1nbnZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM3Njg5MTQsImV4cCI6MjA5OTM0NDkxNH0.AXetVbjLtpbzVw2s3bEFjL3wXSDZNY4FVOgtwymDaEk";
 const SUPABASE_CONFIGURED = !SUPABASE_URL.startsWith("PASTE_") && !SUPABASE_ANON_KEY.startsWith("PASTE_");
 const supabaseClient = SUPABASE_CONFIGURED
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
