@@ -104,9 +104,9 @@
   .lang-toggle button{
     border:none; background:none; cursor:pointer;
     color: rgba(232,217,168,0.55);
-    font-size:12px; font-weight:600;
-    padding:5px 11px; border-radius:16px;
-    transition: all .15s ease;
+    font-size:14px; font-weight:600;
+    padding:8px 14px; border-radius:18px;
+    transition: all .15s ease; min-height:40px;
   }
   .lang-toggle button.active{
     background: var(--gold-soft);
@@ -117,14 +117,14 @@
   .search-wrap svg{position:absolute; left:14px; top:50%; transform:translateY(-50%); opacity:0.55;}
   .search-wrap input{
     width:100%;
-    padding:13px 14px 13px 40px;
+    padding:14px 16px 14px 44px;
     border-radius:12px;
-    border:1px solid rgba(232,217,168,0.25);
+    border:1.5px solid rgba(232,217,168,0.25);
     background: rgba(251,246,233,0.96);
     color: var(--ink);
-    font-size:14.5px;
+    font-size:16px;
     font-family: var(--sans);
-    outline:none;
+    outline:none; min-height:48px;
   }
   .search-wrap input::placeholder{color:#7A8878;}
 
@@ -137,16 +137,16 @@
   .filters::-webkit-scrollbar{display:none;}
   .chip{
     flex-shrink:0;
-    display:flex; align-items:center; gap:5px;
-    padding:7px 13px;
-    border-radius:20px;
-    border:1px solid var(--line);
+    display:flex; align-items:center; gap:6px;
+    padding:10px 16px;
+    border-radius:24px;
+    border:1.5px solid var(--line);
     background: var(--paper-card);
-    font-size:12.5px; font-weight:600;
+    font-size:15px; font-weight:600;
     color: var(--ink);
     cursor:pointer;
     white-space:nowrap;
-    transition: all .12s ease;
+    transition: all .12s ease; min-height:44px;
   }
   .chip.active{
     background: var(--forest);
@@ -166,13 +166,16 @@
   .herb-list{ padding: 0 16px 90px; display:flex; flex-direction:column; gap:10px; }
   .herb-card{
     background: var(--paper-card);
-    border:1px solid var(--line);
+    border:1.5px solid var(--line);
     border-radius: var(--radius);
-    padding:13px 14px;
-    display:flex; align-items:center; gap:13px;
+    padding:16px 18px;
+    display:flex; align-items:center; gap:14px;
     cursor:pointer;
-    box-shadow: var(--shadow);
-    transition: transform .12s ease;
+    box-shadow: 0 2px 4px rgba(21,42,28,0.08), 0 8px 16px rgba(21,42,28,0.06);
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .herb-card:hover{
+    box-shadow: 0 4px 8px rgba(21,42,28,0.12), 0 12px 24px rgba(21,42,28,0.08);
   }
   .herb-card:active{transform: scale(0.98);}
   .herb-thumb{
@@ -184,14 +187,14 @@
   }
   .herb-info{flex:1; min-width:0;}
   .herb-info h3{
-    font-family: var(--serif); font-size:16.5px; margin:0 0 1px;
+    font-family: var(--serif); font-size:18px; margin:0 0 4px;
     color: var(--forest-deep);
   }
-  .herb-info .alt{font-size:12.5px; color:#6A7866; margin-bottom:6px;}
+  .herb-info .alt{font-size:15px; color:#6A7866; margin-bottom:8px;}
   .herb-tags{display:flex; align-items:center; gap:6px; flex-wrap:wrap;}
   .tag{
-    font-size:10.5px; font-weight:700; padding:2.5px 8px; border-radius:8px;
-    display:inline-flex; align-items:center; gap:3px;
+    font-size:13px; font-weight:700; padding:4px 10px; border-radius:8px;
+    display:inline-flex; align-items:center; gap:4px;
   }
   .tag.cat{background: rgba(110,139,106,0.16); color: var(--forest);}
   .stamp{
@@ -227,9 +230,9 @@
   }
   .back-btn{
     background: rgba(251,246,233,0.12);
-    border:1px solid rgba(251,246,233,0.25);
+    border:1.5px solid rgba(251,246,233,0.25);
     color:#FBF6E9;
-    width:34px; height:34px; border-radius:9px;
+    width:48px; height:48px; border-radius:12px;
     display:flex; align-items:center; justify-content:center;
     cursor:pointer; margin-bottom:16px;
   }
@@ -275,18 +278,18 @@
     color: var(--sage); font-weight:800; margin:0 0 6px;
     display:flex; align-items:center; gap:6px;
   }
-  .field p{font-size:14px; line-height:1.55; margin:0; color:var(--ink);}
+  .field p{font-size:16px; line-height:1.6; margin:0; color:var(--ink);}
   .field .prep-box{
     background: rgba(110,139,106,0.08);
     border-left:3px solid var(--sage);
-    padding:11px 13px; border-radius:0 8px 8px 0;
-    font-size:13.5px; line-height:1.6;
+    padding:14px 16px; border-radius:0 8px 8px 0;
+    font-size:16px; line-height:1.7;
   }
   .field .warn-box{
     background: rgba(168,69,58,0.07);
     border-left:3px solid var(--weak);
-    padding:11px 13px; border-radius:0 8px 8px 0;
-    font-size:13.5px; line-height:1.6;
+    padding:14px 16px; border-radius:0 8px 8px 0;
+    font-size:16px; line-height:1.7;
   }
   .compound-list{display:flex; flex-wrap:wrap; gap:6px;}
   .compound-list span{
@@ -314,12 +317,12 @@
   }
   nav.bottom button{
     flex:1; background:none; border:none; cursor:pointer;
-    display:flex; flex-direction:column; align-items:center; gap:3px;
-    color:#8A9686; font-size:10.5px; font-weight:600;
-    padding:5px 0;
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    color:#8A9686; font-size:13px; font-weight:600;
+    padding:8px 0; min-height:52px;
   }
   nav.bottom button.active{color: var(--forest);}
-  nav.bottom button svg{opacity:0.9;}
+  nav.bottom button svg{opacity:0.9; width:24px; height:24px;}
 
   /* ===== ADD HERB MODAL ===== */
   .modal-overlay{
@@ -338,19 +341,19 @@
   .modal h3{font-family:var(--serif); font-size:20px; margin:0 0 4px; color:var(--forest-deep);}
   .modal .sub{font-size:12.5px; color:#6A7866; margin-bottom:18px; line-height:1.5;}
   .modal label{
-    display:block; font-size:11px; font-weight:800; text-transform:uppercase;
-    letter-spacing:0.6px; color:var(--sage); margin:14px 0 6px;
+    display:block; font-size:13px; font-weight:800; text-transform:uppercase;
+    letter-spacing:0.6px; color:var(--sage); margin:16px 0 8px;
   }
   .modal input, .modal textarea, .modal select{
-    width:100%; padding:10px 12px; border-radius:9px;
-    border:1px solid var(--line); background:var(--paper-card);
-    font-size:13.5px; font-family:inherit; color:var(--ink); outline:none;
+    width:100%; padding:14px 16px; border-radius:12px;
+    border:1.5px solid var(--line); background:var(--paper-card);
+    font-size:16px; font-family:inherit; color:var(--ink); outline:none; min-height:48px;
   }
-  .modal textarea{resize:vertical; min-height:64px;}
+  .modal textarea{resize:vertical; min-height:100px;}
   .modal-actions{display:flex; gap:10px; margin-top:20px;}
   .btn{
-    flex:1; padding:12px; border-radius:11px; border:none;
-    font-size:13.5px; font-weight:700; cursor:pointer;
+    flex:1; padding:14px; border-radius:12px; border:none;
+    font-size:16px; font-weight:700; cursor:pointer; min-height:48px;
   }
   .btn.primary{background:var(--forest); color:var(--gold-soft);}
   .btn.ghost{background:transparent; color:var(--sage); border:1px solid var(--line);}
@@ -376,9 +379,9 @@
 
   /* ===== AUTH ===== */
   .auth-chip{
-    border:1px solid rgba(232,217,168,0.3); background:rgba(0,0,0,0.18); color:var(--gold-soft);
-    font-size:12px; font-weight:700; padding:7px 13px; border-radius:20px; cursor:pointer;
-    white-space:nowrap; flex-shrink:0; max-width:130px; overflow:hidden; text-overflow:ellipsis;
+    border:1.5px solid rgba(232,217,168,0.3); background:rgba(0,0,0,0.18); color:var(--gold-soft);
+    font-size:15px; font-weight:700; padding:10px 16px; border-radius:24px; cursor:pointer;
+    white-space:nowrap; flex-shrink:0; max-width:160px; overflow:hidden; text-overflow:ellipsis; min-height:44px;
   }
   .auth-switch{ text-align:center; font-size:12.5px; color:#6A7866; margin-top:14px; }
   .auth-switch a{ color:var(--forest); font-weight:700; text-decoration:none; }
@@ -393,26 +396,28 @@
     padding: 2px 0 16px; margin-bottom:16px; border-bottom:1px dashed var(--line);
   }
   .upvote-btn{
-    display:flex; align-items:center; gap:7px;
-    background: var(--paper); border:1.5px solid var(--line); color:var(--forest);
-    padding:8px 16px; border-radius:20px; font-weight:700; font-size:13px; cursor:pointer;
-    transition: all .15s ease;
+    display:flex; align-items:center; gap:8px;
+    background: var(--paper); border:2px solid var(--line); color:var(--forest);
+    padding:12px 20px; border-radius:12px; font-weight:700; font-size:16px; cursor:pointer;
+    transition: all .15s ease; min-height:48px;
   }
   .upvote-btn.active{ background: var(--gold-soft); border-color: var(--gold); color: var(--forest-deep); }
   .comment-list{ display:flex; flex-direction:column; gap:9px; margin:10px 0 14px; max-height:280px; overflow-y:auto; }
-  .comment-card{ background: rgba(110,139,106,0.07); border-radius:10px; padding:10px 12px; }
-  .comment-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:3px; gap:8px; }
-  .comment-head strong{ font-size:12.5px; color:var(--forest-deep); }
-  .comment-head span{ font-size:10.5px; color:#8A9686; flex-shrink:0; }
-  .comment-card p{ margin:0; font-size:13px; line-height:1.5; color:var(--ink); word-break:break-word; }
-  .comment-input-row{ display:flex; gap:8px; }
+  .comment-card{ background: rgba(110,139,106,0.07); border-radius:12px; padding:14px 16px; border:1px solid var(--line); }
+  .comment-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; gap:8px; }
+  .comment-head strong{ font-size:16px; color:var(--forest-deep); font-weight:700; }
+  .comment-head span{ font-size:14px; color:#8A9686; flex-shrink:0; }
+  .comment-card p{ margin:0; font-size:16px; line-height:1.6; color:var(--ink); word-break:break-word; }
+  .comment-reply{ margin-top:8px; padding:10px 12px; background: rgba(184,134,11,0.06); border-radius:8px; border-left:3px solid var(--gold); }
+  .comment-reply .reply-tag{ font-size:14px; color:var(--emerging); font-weight:600; margin-bottom:4px; }
+  .comment-input-row{ display:flex; gap:10px; margin-top:12px; }
   .comment-input-row input{
-    flex:1; padding:10px 13px; border-radius:20px; border:1px solid var(--line);
-    background:var(--paper-card); font-size:13px; font-family:inherit; outline:none;
+    flex:1; padding:14px 16px; border-radius:12px; border:2px solid var(--line);
+    background:var(--paper-card); font-size:16px; font-family:inherit; outline:none; min-height:48px;
   }
   .comment-input-row button{
-    width:38px; height:38px; border-radius:50%; border:none; background:var(--forest); color:var(--gold-soft);
-    display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;
+    padding:0 24px; height:48px; border-radius:12px; border:none; background:var(--forest); color:var(--gold-soft);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; font-weight:700; font-size:16px;
   }
 
   /* ===================================================
@@ -516,11 +521,11 @@
     </button>
     <button id="nav-add">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-      <span data-i18n="navAdd">Add Herb</span>
+      <span data-i18n="navAdd">➕ Add Herb</span>
     </button>
     <button id="nav-mine">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span data-i18n="navMine">Mine</span>
+      <span data-i18n="navMine">👤 My Submissions</span>
     </button>
   </nav>
 
@@ -546,9 +551,9 @@
 
       <div class="engage-row">
         <button class="upvote-btn" id="d-upvote-btn">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l8 9h-5v9H9v-9H4z"/></svg>
+          <span style="font-size:20px;">👍</span>
           <span id="d-upvote-count">0</span>
-          <span data-i18n="helpful">Helpful</span>
+          <span data-i18n="helpful">This worked for me</span>
         </button>
       </div>
 
@@ -581,8 +586,9 @@
         <div class="comment-list" id="d-comments"></div>
         <div class="comment-input-row">
           <input id="comment-input" type="text" data-i18n-placeholder="commentPlaceholder" placeholder="Share your family's experience...">
-          <button id="comment-submit">→</button>
+          <button id="comment-submit">Post Comment</button>
         </div>
+        <button id="cancel-reply" style="display:none;margin-top:8px;padding:8px 16px;font-size:14px;background:transparent;border:1px solid var(--line);border-radius:8px;cursor:pointer;color:#8A9686;font-weight:600;">Cancel Reply</button>
       </div>
     </div>
     <div class="disclaimer" id="d-disclaimer" data-i18n="disclaimer">
@@ -944,8 +950,8 @@ const I18N = {
     switchToSignup:"Sign up", switchToLogin:"Log in",
     welcomeBack:"Welcome back!", checkEmail:"Check your email to confirm your account.", loggedOut:"Logged out.",
     loginRequiredAdd:"Log in to add a herb.", loginRequiredVote:"Log in to vote.", loginRequiredComment:"Log in to comment.",
-    fComments:"💬 Comments", helpful:"Helpful", commentPlaceholder:"Share your family's experience...",
-    noComments:"No comments yet. Be the first!", justNow:"just now"
+    fComments:"💬 Comments", helpful:"This worked for me", commentPlaceholder:"Share your family's experience...",
+    noComments:"No comments yet. Be the first!", justNow:"just now", reply:"Reply", cancelReply:"Cancel"
   },
   tl:{
     eyebrow:"Direktoryo ng Halamang Gamot", searchPlaceholder:"Maghanap ng halaman o sakit...", allHerbs:"Lahat ng Halaman",
@@ -971,8 +977,8 @@ const I18N = {
     switchToSignup:"Mag-sign up", switchToLogin:"Mag-log in",
     welcomeBack:"Maligayang pagbabalik!", checkEmail:"Tingnan ang email mo para kumpirmahin ang account.", loggedOut:"Na-log out.",
     loginRequiredAdd:"Mag-log in para magdagdag ng halaman.", loginRequiredVote:"Mag-log in para bumoto.", loginRequiredComment:"Mag-log in para mag-comment.",
-    fComments:"💬 Mga Komento", helpful:"Nakatulong", commentPlaceholder:"Ibahagi ang karanasan ng pamilya niyo...",
-    noComments:"Wala pang komento. Ikaw ang una!", justNow:"ngayon lang"
+    fComments:"💬 Mga Komento", helpful:"Nakatulong sa akin", commentPlaceholder:"Ibahagi ang karanasan ng pamilya niyo...",
+    noComments:"Wala pang komento. Ikaw ang una!", justNow:"ngayon lang", reply:"Sagot", cancelReply:"Kanselahin"
   }
 };
 
@@ -985,6 +991,7 @@ let currentUser = null;
 let authMode = "login"; // login | signup
 let currentHerbId = null;
 let hasUpvoted = false;
+let replyingTo = null; // For reply functionality
 
 /* ================= RENDER ================= */
 function t(key){ return I18N[lang][key]; }
@@ -1218,36 +1225,93 @@ function timeAgo(iso){
 function renderComments(comments){
   const el = document.getElementById("d-comments");
   if(!comments || comments.length===0){
-    el.innerHTML = `<p style="font-size:12.5px;color:#8A9686;padding:4px 0;">${t("noComments")}</p>`;
+    el.innerHTML = `<p style="font-size:16px;color:#8A9686;padding:8px 0;">${t("noComments")}</p>`;
     return;
   }
-  el.innerHTML = comments.map(c => `
-    <div class="comment-card">
-      <div class="comment-head"><strong>${escapeHtml(c.display_name)}</strong><span>${timeAgo(c.created_at)}</span></div>
-      <p>${escapeHtml(c.body)}</p>
-    </div>
-  `).join("");
+  
+  // Build a map for quick lookup
+  const commentMap = new Map();
+  comments.forEach(c => commentMap.set(c.id, c));
+  
+  // Separate main comments and replies
+  const mainComments = comments.filter(c => !c.parent_id);
+  const replies = comments.filter(c => c.parent_id);
+  
+  // Render main comments with their replies flattened
+  el.innerHTML = mainComments.map(c => {
+    const commentReplies = replies.filter(r => r.parent_id === c.id);
+    const repliesHtml = commentReplies.length > 0 
+      ? `<div class="comment-replies">
+          ${commentReplies.map(r => `
+            <div class="comment-reply">
+              <div class="reply-tag">@${escapeHtml(commentMap.get(r.parent_id)?.display_name || 'Unknown')}</div>
+              <div class="comment-head"><strong>${escapeHtml(r.display_name)}</strong><span>${timeAgo(r.created_at)}</span></div>
+              <p>${escapeHtml(r.body)}</p>
+            </div>
+          `).join('')}
+        </div>`
+      : '';
+    
+    return `
+      <div class="comment-card">
+        <div class="comment-head"><strong>${escapeHtml(c.display_name)}</strong><span>${timeAgo(c.created_at)}</span></div>
+        <p>${escapeHtml(c.body)}</p>
+        ${currentUser ? `<button class="reply-btn" data-comment-id="${c.id}" data-display-name="${escapeHtml(c.display_name)}" style="margin-top:8px;padding:6px 12px;font-size:14px;background:rgba(110,139,106,0.1);border:1px solid var(--sage);border-radius:8px;cursor:pointer;color:var(--forest);font-weight:600;">${t("reply")}</button>` : ''}
+        ${repliesHtml}
+      </div>
+    `;
+  }).join("");
+  
+  // Add click handlers for reply buttons
+  el.querySelectorAll('.reply-btn').forEach(btn => {
+    btn.onclick = () => {
+      replyingTo = {
+        id: btn.dataset.commentId,
+        displayName: btn.dataset.displayName
+      };
+      const input = document.getElementById('comment-input');
+      input.placeholder = `Replying to @${replyingTo.displayName}...`;
+      input.focus();
+      document.getElementById('cancel-reply').style.display = 'block';
+      document.getElementById('cancel-reply').textContent = t("cancelReply");
+    };
+  });
+  
+  // Update cancel reply button visibility
+  const cancelReplyBtn = document.getElementById('cancel-reply');
+  if(replyingTo) {
+    cancelReplyBtn.style.display = 'block';
+    cancelReplyBtn.textContent = t("cancelReply");
+  } else {
+    cancelReplyBtn.style.display = 'none';
+  }
 }
 
 async function loadEngagement(herbId){
   currentHerbId = herbId;
+  replyingTo = null; // Reset reply state when opening new herb
   const countEl = document.getElementById("d-upvote-count");
   const upvoteBtn = document.getElementById("d-upvote-btn");
   const commentsEl = document.getElementById("d-comments");
+  const commentInput = document.getElementById("comment-input");
+  
+  // Reset comment input placeholder and hide cancel reply
+  commentInput.placeholder = t("commentPlaceholder");
+  document.getElementById('cancel-reply').style.display = 'none';
 
   if(!SUPABASE_CONFIGURED){
     countEl.textContent = "0";
     upvoteBtn.classList.remove("active");
-    commentsEl.innerHTML = `<p style="font-size:12.5px;color:#8A9686;">${lang==="en" ? "Comments need the database connected first." : "Kailangan munang ma-connect ang database."}</p>`;
+    commentsEl.innerHTML = `<p style="font-size:16px;color:#8A9686;">${lang==="en" ? "Comments need the database connected first." : "Kailangan munang ma-connect ang database."}</p>`;
     return;
   }
 
-  const { count } = await supabaseClient.from("upvotes").select("*", { count:"exact", head:true }).eq("herb_id", herbId);
+  const { count } = await supabaseClient.from("helpful_votes").select("*", { count:"exact", head:true }).eq("herb_id", herbId);
   countEl.textContent = count ?? 0;
 
   hasUpvoted = false;
   if(currentUser){
-    const { data } = await supabaseClient.from("upvotes").select("id").eq("herb_id", herbId).eq("user_id", currentUser.id).maybeSingle();
+    const { data } = await supabaseClient.from("helpful_votes").select("id").eq("herb_id", herbId).eq("user_id", currentUser.id).maybeSingle();
     hasUpvoted = !!data;
   }
   upvoteBtn.classList.toggle("active", hasUpvoted);
@@ -1377,16 +1441,31 @@ document.getElementById("d-upvote-btn").onclick = async ()=>{
   if(!currentUser){ showToast(t("loginRequiredVote")); openAuthModal("login"); return; }
   const countEl = document.getElementById("d-upvote-count");
   const btn = document.getElementById("d-upvote-btn");
-  if(hasUpvoted){
-    await supabaseClient.from("upvotes").delete().eq("herb_id", currentHerbId).eq("user_id", currentUser.id);
-    hasUpvoted = false;
-    countEl.textContent = Math.max(0, parseInt(countEl.textContent||"0",10) - 1);
-  } else {
-    await supabaseClient.from("upvotes").insert([{ herb_id:currentHerbId, user_id:currentUser.id }]);
-    hasUpvoted = true;
-    countEl.textContent = parseInt(countEl.textContent||"0",10) + 1;
-  }
+  
+  // Optimistic update
+  const wasUpvoted = hasUpvoted;
+  hasUpvoted = !wasUpvoted;
+  countEl.textContent = wasUpvoted 
+    ? Math.max(0, parseInt(countEl.textContent||"0",10) - 1)
+    : parseInt(countEl.textContent||"0",10) + 1;
   btn.classList.toggle("active", hasUpvoted);
+  
+  try {
+    if(wasUpvoted){
+      await supabaseClient.from("helpful_votes").delete().eq("herb_id", currentHerbId).eq("user_id", currentUser.id);
+    } else {
+      await supabaseClient.from("helpful_votes").insert([{ herb_id:currentHerbId, user_id:currentUser.id }]);
+    }
+  } catch (error) {
+    // Revert on error
+    console.error("Vote error:", error);
+    hasUpvoted = wasUpvoted;
+    countEl.textContent = wasUpvoted 
+      ? parseInt(countEl.textContent||"0",10) + 1
+      : Math.max(0, parseInt(countEl.textContent||"0",10) - 1);
+    btn.classList.toggle("active", hasUpvoted);
+    showToast(lang==="en" ? "Couldn't save vote. Try again." : "Hindi na-save. Subukan ulit.");
+  }
 };
 
 document.getElementById("comment-submit").onclick = async ()=>{
@@ -1395,11 +1474,40 @@ document.getElementById("comment-submit").onclick = async ()=>{
   const input = document.getElementById("comment-input");
   const body = input.value.trim();
   if(!body) return;
+  
   const name = currentUser.user_metadata?.display_name || currentUser.email.split("@")[0];
-  const { error } = await supabaseClient.from("comments").insert([{ herb_id:currentHerbId, user_id:currentUser.id, display_name:name, body }]);
-  if(error){ showToast(lang==="en" ? "Couldn't post. Try again." : "Hindi na-post. Subukan ulit."); return; }
+  const parentId = replyingTo ? replyingTo.id : null;
+  
+  try {
+    const { error } = await supabaseClient.from("comments").insert([{ 
+      herb_id:currentHerbId, 
+      user_id:currentUser.id, 
+      display_name:name, 
+      body,
+      parent_id: parentId
+    }]);
+    if(error) throw error;
+    
+    // Reset input and reply state
+    input.value = "";
+    replyingTo = null;
+    input.placeholder = t("commentPlaceholder");
+    document.getElementById('cancel-reply').style.display = 'none';
+    
+    // Reload comments
+    loadEngagement(currentHerbId);
+  } catch (error) {
+    console.error("Comment error:", error);
+    showToast(lang==="en" ? "Couldn't post. Try again." : "Hindi na-post. Subukan ulit.");
+  }
+};
+
+document.getElementById("cancel-reply").onclick = () => {
+  replyingTo = null;
+  const input = document.getElementById("comment-input");
+  input.placeholder = t("commentPlaceholder");
   input.value = "";
-  loadEngagement(currentHerbId);
+  document.getElementById('cancel-reply').style.display = 'none';
 };
 
 /* init */
